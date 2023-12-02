@@ -1,0 +1,144 @@
+@font-face {
+    font-family: sans-serif;
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+body {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    background: linear-gradient(to left, #7F96E8, #A6DCBF);
+    font-family: sans-serif;
+}
+
+
+
+
+
+/* 내용 감싸는 컨태이너 */
+.wrapper {
+    background-color: white;
+    width: 700px;
+    height: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
+
+/* TOKA */
+.titleWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.t,
+.o,
+.k,
+.a {
+    display: inline;
+    font-weight: 900;
+    font-size: 70px;
+    margin-left: 3px;
+    margin-left: 3px;
+}
+
+
+.t {
+    color: #7F96E8;
+    -webkit-text-stroke: 8px #7F96E8;
+}
+
+.k {
+    color: #A6DCBF;
+    -webkit-text-stroke: 8px #A6DCBF;
+}
+
+.o,
+.a {
+    color: #616161;
+    -webkit-text-stroke: 8px #616161;
+}
+
+
+
+
+
+/* ID & Password */
+.box {
+    width: 500px;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+input::placeholder {
+    color: lightgrey;
+}
+
+
+
+
+
+/* Forget Password? */
+.forgetpw {
+    width: 500px;
+    margin: auto;
+}
+
+.forget{
+    text-align: right;
+}
+
+
+
+
+
+/* LogIn */
+.btnWrapper {
+    margin-top: 30px;
+    text-align: center;
+}
+
+#btn {
+    margin: auto;
+    background: linear-gradient(to left, #7F96E8, #A6DCBF);
+    width: 500px;
+    height: 50px;
+    font-size: 20px;
+    color: white;
+    -webkit-text-stroke: 1px white;
+    border: 0px solid rgb(93, 93, 93);
+    border-radius: 5px;
+}
+
+
+
+
+
+/* Not a member? SignUp */
+.signupBtn {
+    margin-top: 10px;
+}
+
+.signupBtn > a {
+    font-weight: bold;
+}
