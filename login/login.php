@@ -5,6 +5,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,6 +17,7 @@
     <link rel="stylesheet" href="login.css">
     <title>Login</title>
 </head>
+
 <body>
     <div class="container-fluid wrapper">
         <div class="container">
@@ -29,7 +31,7 @@
             </div><br>
 
             <form action="login.php" method="post">
-                
+
                 <!-- ID & Password -->
                 <input type="text" id="id" name="id" class="box" placeholder="ID" autocomplete='off' required><br>
                 <input type="password" id="pw" name="password" class="box" placeholder="Password" required>
@@ -51,8 +53,9 @@
 
         </div>
     </div>
-    
+
 </body>
+
 </html>
 
 <?php

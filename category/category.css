@@ -1,0 +1,133 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
+    background: linear-gradient(to left, #7F96E8, #A6DCBF);
+    font-family: 'Pretendard-Regular', sans-serif; /* 수정된 폰트 패밀리 */
+}
+
+/* Menu */
+.subWrapper {
+    text-align: center;
+    margin-bottom: 15px;
+    margin-top: 20px;
+    font-size: large;
+}
+
+.subTitle {
+    font-size: 20px;
+    font-weight: 900;
+    color: #7F96E8;
+    -webkit-text-stroke: 1px #7F96E8;
+}
+
+
+/* 내용 */
+.category-list {
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    padding-left: 0; /* 왼쪽 패딩 제거 */
+    width: 100%; /* 전체 너비 사용 */
+    margin: 0 auto; /* 중앙 정렬 */
+}
+
+.category-list li {
+    background-color: #fff; /* 배경색 */
+    margin-bottom: 8px; /* 항목 간격 */
+    padding: 10px 20px; /* 내부 여백 */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* 그림자 효과 변경 */
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    transition: box-shadow 0.3s; /* 그림자 효과에 애니메이션 적용 */
+}
+
+
+.category-button{
+    font-size: medium;
+}
+.category-number {
+    background-color: #7F96E8; /* 번호 배경색 변경 */
+    color: #fff; /* 번호 색상 변경 */
+    border-radius: 50%; /* 원형으로 만들기 */
+    width: 30px; /* 번호 너비 */
+    height: 30px; /* 번호 높이 */
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    margin-right: 15px; /* 오른쪽 마진 조정 */
+}
+
+.category-name {
+    font-size: large;
+    font-weight: bold; /* 번호 굵게 */
+    flex-grow: 1; /* 남은 공간 채우기 */
+    text-align: center; /* 텍스트 왼쪽 정렬 */
+}
+
+/* 카테고리 리스트를 위한 추가 스타일 */
+.scrollable {
+    width: 60%; /* 원하는 너비로 조정 */
+    height: 600px; /* 높이를 800px 또는 원하는 값으로 변경 */
+    margin: 20px auto; /* 중앙 정렬 */
+    overflow-y: scroll; /* 세로 스크롤만 표시 */
+    background: #fff; /* 배경색 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    padding: 15px; /* 안쪽 여백 설정 */
+}
+
+.scrollable ul {
+    list-style: none; /* 리스트 항목 앞의 점을 제거합니다 */
+    padding: 0; /* 왼쪽 패딩을 제거합니다 */
+    margin: 0; /* 상하 마진을 제거합니다 */
+    display: flex; /* 리스트를 플렉스 아이템으로 만들어 줍니다 */
+    flex-direction: column; /* 아이템들을 세로로 나열합니다 */
+}
+
+.scrollable li {
+    background-color: #fff; /* 배경색을 흰색으로 설정합니다 */
+    margin: 10px 0; /* 아이템 간격을 위해 마진을 설정합니다 */
+    padding: 10px; /* 내부 여백을 설정합니다 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과를 추가합니다 */
+    display: flex; /* 항목 내부에서의 정렬을 위해 플렉스 박스 모델을 사용합니다 */
+    justify-content: space-between; /* 내부 요소들을 양쪽으로 띄웁니다 */
+    align-items: center; /* 세로 방향 가운데 정렬을 합니다 */
+    border-radius: 10px; /* 모서리를 둥글게 처리합니다 */
+}
+
+.scrollable li div.text {
+    flex-grow: 1; /* 텍스트를 가능한 공간에 맞게 확장합니다 */
+    text-align: left; /* 텍스트는 왼쪽 정렬합니다 */
+    padding-left: 10px;
+}
+
+/* 호버 효과 - 리스트 항목에 마우스를 올렸을 때 그림자 강도를 증가시킵니다 */
+.scrollable li:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 효과를 강화합니다 */
+}
+
+/* 스크롤바 스타일 */
+.scrollable::-webkit-scrollbar-thumb {
+    background: #7F96E8; /* 스크롤바 색상을 변경합니다 */
+    border-radius: 10px; /* 스크롤바 모서리를 둥글게 합니다 */
+}
+
+.scrollable::-webkit-scrollbar-track {
+    background: #f1f1f1; /* 스크롤바 트랙 색상을 변경합니다 */
+    border-radius: 10px; /* 스크롤바 트랙 모서리를 둥글게 합니다 */
+}
