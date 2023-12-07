@@ -12,6 +12,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,39 +24,42 @@
     <link rel="stylesheet" href="navigator.css">
     <title>Navigator</title>
 </head>
+
 <body>
-    
+
     <!-- 정상적으로 로그인하여 접속했을 때 -->
     <?php
       if ( $jb_login ) {
     ?>
 
-<!-- 네비게이션바 -->
-<div class="wrap">
+    <!-- 네비게이션바 -->
+    <div class="wrap">
         <nav id="nav">
             <div class="titleWrapper">
-                    <h1 class="t">T</h1>
-                    <h1 class="o">O</h1>
-                    <h1 class="k">K</h1>
-                    <h1 class="a">A</h1>
+                <h1 class="t">T</h1>
+                <h1 class="o">O</h1>
+                <h1 class="k">K</h1>
+                <h1 class="a">A</h1>
             </div>
             <label class="navicon" for="nav-toggle"><span class="navicon-bar"></span></label>
             <ul class="nav-items">
+                <li><a href="../main/home.php">HOME</a></li>
                 <li><a href="#">QUEST</a></li>
                 <li><a href="#">MYPAGE</a></li>
             </ul>
         </nav>
-</div>
+    </div>
 
 
     <!-- 그냥 접속했을 때 -->
     <?php
       } else {
     ?>
-      <h1>Invalid Access</h1>
+    <h1>Invalid Access</h1>
     <?php
       }
     ?>
-    
+
 </body>
+
 </html>
