@@ -5,6 +5,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,6 +17,7 @@
     <link rel="stylesheet" href="signup.css">
     <title>SignUp</title>
 </head>
+
 <body>
     <div class="container-fluid wrapper">
         <div class="container">
@@ -29,7 +31,7 @@
             </div><br>
 
             <form action="signup.php" method="post">
-                
+
                 <!-- ID & Password & Email & Name -->
                 <input type="text" id="tempId" class="box" placeholder="ID" autocomplete='off' required>
                 <input type="hidden" name="id" id="id" required>
@@ -37,7 +39,7 @@
                     <p id="checkId">Check for duplicate</p>
                     <input type="button" id="checkBtn" value="Click" onclick="checkId();">
                 </div>
-                
+
                 <input type="password" id="pw" name="password" class="box" placeholder="Password" required><br>
                 <input type="email" id="email" name="email" class="box" placeholder="Email" autocomplete='off'><br>
                 <input type="text" id="name" name="name" class="box" placeholder="Name" autocomplete='off' required><br>
@@ -55,9 +57,10 @@
         </div>
     </div>
 
-    
+
     <script src="signup.js"></script>
 </body>
+
 </html>
 
 <?php
