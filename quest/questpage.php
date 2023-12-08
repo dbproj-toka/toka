@@ -11,7 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="questpage.css">
     <link rel="stylesheet" href="../navigator.css">
-    <title>Word List</title>
+    <title>Quest</title>
 </head>
 
 <body>
