@@ -59,16 +59,13 @@ body {
 .category-button{
     font-size: medium;
 }
+
 .category-number {
-    background-color: #7F96E8; /* 번호 배경색 변경 */
-    color: #fff; /* 번호 색상 변경 */
-    border-radius: 50%; /* 원형으로 만들기 */
-    width: 30px; /* 번호 너비 */
-    height: 30px; /* 번호 높이 */
-    display: flex;
-    justify-content: center; /* 가로 중앙 정렬 */
-    align-items: center; /* 세로 중앙 정렬 */
-    margin-right: 15px; /* 오른쪽 마진 조정 */
+    background-color:  #7F96E8; /* Blue background for ID */
+    color: #ffffff; /* White text color */
+    padding: 2px 8px; /* Padding around ID */
+    border-radius: 4px; /* Rounded corners for ID badge */
+    font-weight: bold; /* Bold font weight for ID */
 }
 
 .category-name {

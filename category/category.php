@@ -44,6 +44,7 @@
                 <?php
             
         // 카테고리 데이터를 가져오는 쿼리 실행
+    
         $sql = "SELECT identifier, category_name FROM category LIMIT 10";
         $result = $conn->query($sql);
         

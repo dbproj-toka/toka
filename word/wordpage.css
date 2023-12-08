@@ -20,4 +20,146 @@ body {
     font-family: 'Pretendard-Regular', sans-serif; /* 수정된 폰트 패밀리 */
 }
 
+/* Main Wrapper Style */
+.Wrapper {
+  max-width: 600px; /* 필요에 따라 너비 조정 */
+  margin: 0 auto; /* 자동 마진으로 중앙 정렬 */
+  padding: 20px; /* 패딩 설정 */
+  background-color: #f4f4f4; /* 배경색은 연한 회색 */
+}
+  
+  /* 서브 래퍼 스타일 */
+.subWrapper {
+  display: flex; /* 플렉스 박스 사용 */
+  justify-content: space-between; /* 내용물 사이에 공간 배분 */
+  align-items: center; /* 세로 중앙 정렬 */
+  margin-bottom: 20px; /* 아래쪽 마진 설정 */
+}
+  
+/* 서브 타이틀 스타일 */
+.subtitle {
+    font-size: 20px;
+    font-weight: 900;
+    color: #7F96E8;
+    -webkit-text-stroke: 1px #7F96E8;
+}
+
+/* 스크롤 가능 리스트 스타일 */
+.scrollable {
+  width: 100%; /* 래퍼의 전체 너비 사용 */
+  max-width: 60%; /* 필요한 경우 래퍼의 최대 너비와 일치 */
+  height: 600px;
+  margin: 20px auto; /* 중앙 정렬 */
+  overflow-y: auto; /* 필요에 따라 세로 스크롤바 표시 */
+  background: #fff; /* 배경색 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  border-radius: 8px; /* 둥근 모서리 */
+  padding: 15px; /* 패딩 설정 */
+  display: flex; /* 플렉스박스 레이아웃 사용 */
+  flex-direction: column; /* 항목을 세로로 쌓기 */
+  gap: 10px; /* 항목 사이의 간격 */
+}
+
+  
+/* 카테고리 리스트 스타일 */
+.category-list {
+  width: 100%; /* 스크롤 가능 영역의 전체 너비 사용 */
+  list-style: none; /* 기본 리스트 스타일 제거 */
+  padding: 0; /* 기본 패딩 제거 */
+  display: flex; /* 플렉스박스 레이아웃 사용 */
+  flex-wrap: wrap; /* 내용이 넘칠 때 다음 줄로 감싸기 */
+  justify-content: space-between; /* 항목 사이에 공간 배분 */
+  gap: 10px; /* 항목 사이의 간격 */
+}
+
+  
+/* 카테고리 리스트 항목 스타일 */
+.category-list li {
+  width: calc(50% - 10px); /* 2열을 만들기 위해 너비 조정, 간격 고려 */
+  background-color: #ffffff; /* 카드 배경색 */
+  padding: 15px; /* 내부 여백 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 입체감을 주는 그림자 */
+  border-radius: 8px; /* 둥근 모서리 */
+  display: flex; /* 내부 레이아웃을 위한 플렉스박스 사용 */
+  align-items: center; /* 항목을 세로로 중앙 정렬 */
+  justify-content: space-between; /* 내부 내용 사이에 공간 배분 */
+  font-family: 'Pretendard-Regular', sans-serif; /* 폰트 패밀리 설정 */
+}
+
+.word {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}  
+  
+  /* Category Number Style */
+  .category-number {
+    background-color:  #7F96E8; /* Blue background for ID */
+    color: #ffffff; /* White text color */
+    padding: 2px 8px; /* Padding around ID */
+    border-radius: 4px; /* Rounded corners for ID badge */
+    font-weight: bold; /* Bold font weight for ID */
+}
+  
+.english-word {
+  font-weight: bold; /* 영어 단어는 굵게 표시 */
+  margin-right: 10px; /* 영어 단어와 품사 사이에 여백을 줌 */
+  padding-left: 20px;
+  font-size: large;
+}
+
+.word-translations {
+  font-weight: bold; /* 영어 단어는 굵게 표시 */
+  justify-content: flex-end; /* 오른쪽 정렬 */
+}
+
+.part-of-speech {
+  font-weight: bold; /* 영어 단어는 굵게 표시 */
+  margin-right: 10px; /* 품사와 한국어 단어 사이에 여백을 줌 */
+}
+
+.korean-word {
+  font-size: large;
+  color: #555; /* 한국어 단어는 조금 더 진한 색으로 표시 */
+  text-align: right;
+}
+
+.back-button-container {
+  margin: 20px; /* 버튼 주변에 여백을 추가 */
+  text-align: center; /* 버튼을 중앙으로 정렬 */
+}
+
+.btn-default {
+  padding: 10px 20px; /* 버튼 패딩을 추가 */
+  font-size: 16px; /* 글자 크기 설정 */
+  color: #333; /* 글자 색상 설정 */
+  background-color: #f8f8f8; /* 배경색 설정 */
+  border: 1px solid #ddd; /* 테두리 설정 */
+  border-radius: 5px; /* 모서리를 둥글게 */
+  cursor: pointer; /* 마우스 오버 시 커서 변경 */
+  outline: none; /* 포커스 시 외곽선 제거 */
+}
+
+.btn-default:hover {
+  background-color: #e7e7e7; /* 호버 상태의 배경색 변경 */
+}
+
+  
+  @media (max-width: 768px) {
+    .Wrapper {
+        padding: 10px;
+    }
+
+    .subTitle {
+        font-size: 18px;
+    }
+
+    .scrollable {
+      width: 90%; /* 작은 화면에서 너비 조정 */
+  }
+  .category-list li {
+      width: 100%; /* 작은 화면에서 리스트 항목 전체 너비 사용 */
+  }
+}
+  
 
