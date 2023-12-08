@@ -4,7 +4,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 <!DOCTYPE html>
 <html lang="en">
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -16,7 +15,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <link rel="stylesheet" href="questpage.css">
 <link rel="stylesheet" href="../navigator.css">
 <title>Word List</title>
-</head>
 
 <body>
     <?php include '../navigator.php'; ?>
