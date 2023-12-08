@@ -43,8 +43,11 @@
             </div>
             <label class="navicon" for="nav-toggle"><span class="navicon-bar"></span></label>
             <ul class="nav-items">
-                <li><a href="../main/home.php">HOME</a></li>
-                <li><a href="../quest/questpage.php">QUEST</a></li>
+                <li><a href="../main/home.php"
+                        class="<?php echo $current_page == 'home.php' ? 'active' : ''; ?>">HOME</a></li>
+                <li><a href="../quest/questpage.php"
+                        class="<?php echo $current_page == 'questpage.php' ? 'active' : ''; ?>">QUEST</a></li>
+
                 <li><a href="#">MYPAGE</a></li>
             </ul>
         </nav>
