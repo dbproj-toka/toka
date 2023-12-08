@@ -20,7 +20,11 @@ body {
 }
 
 
-
+.nav-items a.active {
+    color: #7F96E8; /* 활성 탭의 색상 */
+    -webkit-text-stroke: 3px #7F96E8;
+    /* 추가적인 스타일링 */
+}
 
 
 /* Navigator */

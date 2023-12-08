@@ -24,15 +24,14 @@ body {
 .subWrapper {
     text-align: center;
     margin-bottom: 15px;
-    margin-top: 20px;
+    margin-top: 30px;
     font-size: large;
 }
 
 .subTitle {
-    font-size: 25px;
-    font-weight: 900;
-    color: #7F96E8;
-    -webkit-text-stroke: 1px #7F96E8;
+    font-size: 20px;
+    color: #fff;
+    -webkit-text-stroke: 1px #fff;
 }
 
 
@@ -46,6 +45,7 @@ body {
 
 .category-list li {
     background-color: #fff; /* 배경색 */
+    height: 60px;
     margin-bottom: 8px; /* 항목 간격 */
     padding: 10px 20px; /* 내부 여백 */
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* 그림자 효과 변경 */
@@ -69,20 +69,21 @@ body {
 }
 
 .category-name {
-    font-size: large;
+    font-size: 20px;
     font-weight: bold; /* 번호 굵게 */
     flex-grow: 1; /* 남은 공간 채우기 */
+    padding-right: 20px;
     text-align: center; /* 텍스트 왼쪽 정렬 */
 }
 
 /* 카테고리 리스트를 위한 추가 스타일 */
 .scrollable {
-    width: 60%; /* 원하는 너비로 조정 */
+    width: 50%; /* 원하는 너비로 조정 */
     height: 600px; /* 높이를 800px 또는 원하는 값으로 변경 */
     margin: 20px auto; /* 중앙 정렬 */
     overflow-y: scroll; /* 세로 스크롤만 표시 */
-    background: #fff; /* 배경색 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    background: #ffffff00; /* 배경색 */
+    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/ /* 그림자 효과 */
     border-radius: 8px; /* 모서리 둥글게 */
     list-style: none; /* 기본 리스트 스타일 제거 */
     padding: 15px; /* 안쪽 여백 설정 */
@@ -105,12 +106,13 @@ body {
     justify-content: space-between; /* 내부 요소들을 양쪽으로 띄웁니다 */
     align-items: center; /* 세로 방향 가운데 정렬을 합니다 */
     border-radius: 10px; /* 모서리를 둥글게 처리합니다 */
+    cursor: pointer; /* 마우스 커서를 포인터로 변경 */
 }
+
 
 .scrollable li div.text {
     flex-grow: 1; /* 텍스트를 가능한 공간에 맞게 확장합니다 */
     text-align: left; /* 텍스트는 왼쪽 정렬합니다 */
-    padding-left: 10px;
 }
 
 /* 호버 효과 - 리스트 항목에 마우스를 올렸을 때 그림자 강도를 증가시킵니다 */
@@ -127,4 +129,8 @@ body {
 .scrollable::-webkit-scrollbar-track {
     background: #f1f1f1; /* 스크롤바 트랙 색상을 변경합니다 */
     border-radius: 10px; /* 스크롤바 트랙 모서리를 둥글게 합니다 */
+}
+.category-link {
+    color: inherit; /* 상속된 색상 사용 */
+    display: block; /* 블록 레벨 요소로 변경 */
 }

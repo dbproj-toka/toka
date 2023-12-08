@@ -30,8 +30,17 @@
         }
 
         // 카테고리 데이터를 가져오는 쿼리 실행
-        $categoryName = 'Business';
         $categoryIdentifier = $conn->real_escape_string($_GET['category']);
+
+        $categorySql = "SELECT category_name FROM category WHERE identifier = '$categoryIdentifier'";
+        $categoryResult = $conn->query($categorySql);
+        if ($categoryResult->num_rows > 0) {
+        $categoryRow = $categoryResult->fetch_assoc();
+        $categoryName = $categoryRow['category_name'];
+        } else {
+            $categoryName = "Unknown Category"; // 카테고리가 없을 경우
+        }
+
         $sql = "SELECT w.word_id, w.english, w.korean, w.part, w.categoryId, c.category_name 
                 FROM words AS w
                 INNER JOIN category AS c ON w.categoryId = c.identifier
@@ -41,9 +50,9 @@
         
     ?>
 
-    <div class="subtitle">
-        <h2><?php echo $categoryName; ?></h2>
-    </div>
+
+    <div class="subtitle"><?php echo $categoryName; ?></div>
+
     <div class="scrollable">
         <div class="back-button-container">
             <button onclick="history.back()" class="btn btn-default">Go to Category</button>

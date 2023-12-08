@@ -35,7 +35,7 @@
     <div class="Wrapper">
         <!-- Menu -->
         <div class="subWrapper">
-            <p class="subTitle item">Word List</p>
+            <p class="subTitle item">Category List</p>
         </div>
 
         <div class="scrollable">
@@ -45,7 +45,7 @@
             
         // 카테고리 데이터를 가져오는 쿼리 실행
     
-        $sql = "SELECT identifier, category_name FROM category LIMIT 10";
+        $sql = "SELECT identifier, category_name FROM category";
         $result = $conn->query($sql);
         
         // 결과가 있으면 리스트 아이템으로 출력
@@ -53,12 +53,13 @@
             echo '<ul class="category-list">'; // 클래스 이름을 'category-list'로 지정
             while($row = $result->fetch_assoc()) {
                 // 카테고리 번호와 이름을 분리하여 출력
+                echo '<a href="../word/wordpage.php?category=' . $row["identifier"] . '" class="category-link">';
                 echo '<li>';
                 echo '<span class="category-number">' . sprintf("%02d", $row["identifier"]) . '</span>';
                 echo '<span class="category-name">' . $row["category_name"] . '</span>';
                 //각 카테고리 버튼 추가
-                echo '<a href="../word/wordpage.php?category=' . $row["identifier"] . '" class="category-button">GO</a>';
                 echo '</li>';
+                echo '</a>';
 
             }
             echo '</ul>';
