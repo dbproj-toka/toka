@@ -130,7 +130,7 @@
     }
 
     //custom Word Quiz
-    function openCustom() {
+    function customQuiz() {
         //
     }
 
