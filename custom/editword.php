@@ -61,7 +61,7 @@
             <div class="container">
 
                 <!-- Title -->
-                <h3 class="title">Edit Information</h3>
+                <h3 class="title">Edit Word</h3>
 
                 <!-- 수정 폼 -->
                 <form action="editProgress.php" method="post">
@@ -91,13 +91,13 @@
 
                     <!-- Edit -->
                     <div class="btnWrapper">
-                        <button type="submit" id="btn">Edit</button>
+                        <button type="submit" class="btn edit">Edit</button>
                     </div>
                 </form>
 
                 <!-- Edit -->
                 <div class="btnWrapper">
-                    <button id="btn" onclick="deleteWord(<?php echo $custom_id; ?>)">Delete</button>
+                    <button class="btn delete" onclick="deleteWord(<?php echo $custom_id; ?>)">Delete</button>
                 </div>
 
             </div>

@@ -143,7 +143,7 @@ li>a:hover{
 
 .container {
     width: 100%;
-    height: 500px;
+    height: 600px;
 }
 
 /* Password & Email & Name*/
@@ -186,7 +186,7 @@ input::placeholder {
     text-align: center;
 }
 
-#btn {
+.btn {
     margin: auto;
     background: linear-gradient(to left, #7F96E8, #A6DCBF);
     width: 500px;
@@ -198,8 +198,18 @@ input::placeholder {
     border-radius: 5px;
 }
 
+.edit {
+    background: #A6DCBF;
+}
 
+.delete {
+    background: #FF6969;
+}
 
+.btn:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
 
 
 
