@@ -134,6 +134,7 @@
     //custom Word Quiz
     function openCustomQuiz() {
         window.location.href = '../customquiz/customquiz.php';
+
     }
     </script>
 
