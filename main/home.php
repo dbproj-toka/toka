@@ -12,6 +12,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,95 +25,96 @@
     <link rel="stylesheet" href="home.css">
     <title>Home</title>
 </head>
+
 <body>
 
     <?php
       if ( $jb_login ) {
     ?>
 
-        <!-- 네비게이션바 -->
-        <div class="wrap">
-                <nav id="nav">
-                    <div class="titleWrapper">
-                            <h1 class="t">T</h1>
-                            <h1 class="o">O</h1>
-                            <h1 class="k">K</h1>
-                            <h1 class="a">A</h1>
+    <!-- 네비게이션바 -->
+    <div class="wrap">
+        <nav id="nav">
+            <div class="titleWrapper">
+                <h1 class="t">T</h1>
+                <h1 class="o">O</h1>
+                <h1 class="k">K</h1>
+                <h1 class="a">A</h1>
+            </div>
+            <label class="navicon" for="nav-toggle"><span class="navicon-bar"></span></label>
+            <ul class="nav-items">
+                <li><a href="../quest/questpage.php">QUEST</a></li>
+                <li><a href="../mypage/mypage.php">MYPAGE</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- 내용 -->
+    <div class="wrapper">
+        <div class="container">
+            <!-- Menu -->
+            <div class="subWrapper">
+                <p class="subTitle item">Menu</p>
+            </div>
+
+            <!-- WordList & Quiz & Review & Ranking -->
+            <div class="menuWrapper">
+                <div class="wordList item" onclick="openWord()">
+                    <div class="icon">
+                        <i class="fa-regular fa-file-lines fa-3x"></i>
                     </div>
-                    <label class="navicon" for="nav-toggle"><span class="navicon-bar"></span></label>
-                    <ul class="nav-items">
-                        <li><a href="../quest/questpage.php">QUEST</a></li>
-                        <li><a href="../mypage/mypage.php">MYPAGE</a></li>
-                    </ul>
-                </nav>
-        </div>
+                    <p>WordList</p>
+                </div>
 
-        <!-- 내용 -->
-        <div class = "wrapper">
-            <div class="container">
-                    <!-- Menu -->
-                    <div class="subWrapper">
-                        <p class="subTitle item">Menu</p>
+                <div class="quiz item" onclick="">
+                    <div class="icon">
+                        <i class="fa-solid fa-pencil fa-3x"></i>
                     </div>
+                    <p>Quiz</p>
+                </div>
 
-                    <!-- WordList & Quiz & Review & Ranking -->
-                    <div class="menuWrapper">
-                        <div class="wordList item" onclick="openWord()">
-                            <div class="icon">
-                                <i class="fa-regular fa-file-lines fa-3x"></i>
-                            </div>
-                            <p>WordList</p>
-                        </div>
-
-                        <div class="quiz item" onclick="">
-                            <div class="icon">
-                                <i class="fa-solid fa-pencil fa-3x"></i>
-                            </div>
-                            <p>Quiz</p>
-                        </div>
-
-                        <div class="review item" onclick="">
-                            <div class="icon">
-                                <i class="fa-solid fa-table fa-3x"></i>
-                            </div>
-                            <p>Review</p>
-                        </div>
-
-                        <div class="ranking item" onclick="openCustom()">
-                            <div class="icon">
-                                <i class="fa-solid fa-signal fa-3x"></i>
-                            </div>
-                            <p>Custom Word(임시)</p>
-                        </div>
-
-                        <div class="ranking item" onclick="customQuiz()">
-                            <div class="icon">
-                                <i class="fa-solid fa-signal fa-3x"></i>
-                            </div>
-                            <p>Custom Word Quiz(임시)</p>
-                        </div>
+                <div class="review item" onclick="">
+                    <div class="icon">
+                        <i class="fa-solid fa-table fa-3x"></i>
                     </div>
+                    <p>Review</p>
+                </div>
+
+                <div class="ranking item" onclick="openCustom()">
+                    <div class="icon">
+                        <i class="fa-solid fa-signal fa-3x"></i>
+                    </div>
+                    <p>Custom Word(임시)</p>
+                </div>
+
+                <div class="ranking item" onclick="openCustomQuiz()">
+                    <div class="icon">
+                        <i class="fa-solid fa-signal fa-3x"></i>
+                    </div>
+                    <p>Custom Word Quiz(임시)</p>
+                </div>
             </div>
         </div>
+    </div>
 
     <!-- 그냥 접속했을 때 -->
     <?php
       } else {
     ?>
-      <h1>Invalid Access</h1>
+    <h1>Invalid Access</h1>
     <?php
       }
     ?>
 
-<!-- 애니메이션 효과 -->
-<script>
+    <!-- 애니메이션 효과 -->
+    <script>
     var item = document.querySelectorAll('.item');
-    var cnt = 0; 
+    var cnt = 0;
 
-    function activeFunc(){
+    function activeFunc() {
         item[cnt].classList.add('active');
-        cnt++;    
-        if(cnt >= item.length){
+        cnt++;
+        if (cnt >= item.length) {
             clearInterval(addActive);
         }
     }
@@ -130,11 +132,11 @@
     }
 
     //custom Word Quiz
-    function openCustom() {
-        //
+    function openCustomQuiz() {
+        window.location.href = '../customquiz/customquiz.php';
     }
-
-</script>
+    </script>
 
 </body>
+
 </html>

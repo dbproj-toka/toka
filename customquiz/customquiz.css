@@ -1,0 +1,194 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #e9ecef; /* 조정된 배경색 */
+    color: #333;
+    line-height: 1.6;
+}
+
+.quiz-container {
+    width: 80%;
+    max-width: 600px;
+    height: 550px;
+    margin: 30px auto; /* 상하 여백 조정 */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* 그림자 깊이 조정 */
+    border-radius: 10px; /* 둥근 모서리 조정 */
+}
+
+button {
+    display: block; /* 인라인-블록 대신 블록으로 변경 */
+    width: 100%; /* 버튼을 전체 너비로 확장 */
+    background-color: #7f89e8;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    padding: 10px 0; /* 상하 패딩 조정 */
+    margin: 10px 0 20px; /* 여백 조정 */
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5c6ae7;
+}
+
+/* 정답, 오답 버튼 색상 조정 */
+.correct-answer {
+    background-color: #28a745; /* 정답 버튼 색상 */
+}
+
+.correct-answer:hover {
+    background-color: #218838; /* 정답 버튼 호버 색상 */
+}
+
+.wrong-answer {
+    background-color: #dc3545; /* 오답 버튼 색상 */
+}
+
+.wrong-answer:hover {
+    background-color: #c82333; /* 오답 버튼 호버 색상 */
+}
+
+#quizContent h2 {
+    color:  #7F96E8;
+    font-weight: bold;
+    text-align: center; /* 중앙 정렬 */
+    margin-bottom: 30px; /* 하단 여백 조정 */
+}
+
+input[type='text'] {
+    width: calc(50% - 10px); /* 입력 필드 너비 조정 */
+    display: inline-block; /* 인라인-블록으로 표시 */
+    margin: 0 5px; /* 좌우 여백 추가 */
+}
+
+/* 점수 표시 스타일 */
+#score {
+    color: #4a90e2; /* 점수 색상을 더 밝은 색으로 변경 */
+    font-size: 36px; /* 폰트 크기 증가 */
+    font-weight: 700; /* 폰트 두께를 더욱 두껍게 */
+    text-align: center; /* 점수 중앙 정렬 */
+    display: block; /* 블록 요소로 변경 */
+    margin-top: 30px; /* 상단 여백 증가 */
+    margin-bottom: 30px; /* 하단 여백 추가 */
+    padding: 10px 0; /* 상하 패딩 추가 */
+    background-color: #e9ecef; /* 배경색 추가 */
+    border-radius: 5px; /* 둥근 모서리 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+}
+
+#restartButton {
+    background-color: #A6DCBF; /* 다시하기 버튼 색상 조정 */
+    margin-top: 15px; /* 상단 간격을 줄임 */
+    margin-bottom: 20px; /* 필요하다면 하단 간격을 추가 */
+    font-weight: bold;
+    color: white;
+}
+
+/* "다음" 버튼에 대한 스타일 */
+#nextButton {
+    background-color: #7F96E8;
+    margin-top: 15px; /* 상단 간격을 줄임 */
+    margin-bottom: 20px; /* 필요하다면 하단 간격을 추가 */
+    font-weight: bold;
+    color: white;
+}
+
+#nextButton:hover {
+    background-color: #687cc5;
+}
+#restartButton:hover {
+    background-color: #76d2a1; /* 다시하기 버튼 호버 색상 조정 */
+}
+
+#resultPage {
+    display: none;
+}
+
+/* 진행 바 스타일 */
+.progress-bar {
+    height: 20px; /* 진행 바 높이 */
+    background-color: #007bff; /* 진행 바 색상 */
+    margin-bottom: 20px; /* 진행 바 하단 여백 */
+}
+
+/* 퀴즈 컨테이너 내부 요소들의 상단 간격 조정 */
+#quizContent, #resultPage{
+    margin-top: 30px; /* 각 섹션의 상단 간격 조정 */
+}
+
+/* 커스텀 라디오 버튼 스타일 */
+.quiz-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #495057;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+
+.quiz-option:hover {
+    background-color: #e2e6ea; /* 마우스 오버 시 배경색 변경 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 마우스 오버 시 그림자 강조 */
+    transform: translateY(-2px); /* 마우스 오버 시 위로 약간 이동 */
+}
+/* 라디오 버튼이 숨겨져 있을 때 레이블 스타일 */
+.quiz-option input[type='radio'] + label {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    display: inline-block;
+    width: calc(100% - 22px); /* 라벨 너비를 조정 */
+    margin: 5px 0; /* 간격 조정 */
+    cursor: pointer;
+    display: none;
+}
+
+/* 라디오 버튼이 선택되었을 때 레이블 스타일 변경 */
+.quiz-option input[type='radio']:checked + label {
+    background-color: #e9ecef;
+    border-color: #007bff;
+}
+
+/* 라벨 클릭 가능 영역 확장 */
+.quiz-option label {
+    display: block; /* 라벨을 블록 레벨 요소로 만듦 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    margin-left: 0; /* 가운데 정렬을 위해 왼쪽 마진 제거 */
+    padding: 10px; /* 패딩 조정 */
+    cursor: pointer;
+    width: 100%; /* 라벨 너비를 부모의 100%로 설정 */
+}
+
+/* 라디오 버튼이 선택되었을 때 스타일 */
+.quiz-option input[type='radio']:checked + label {
+    background-color: #d1e7fd;
+    border-color: #007bff;
+    /* 여기서도 text-align: center; 를 추가해야 합니다만,
+       이미 .quiz-option label에 정의되어 있으므로 생략 가능 */
+}
+
+
+/* 라디오 버튼 선택 시 표시 스타일 */
+.quiz-option input[type='radio']:checked + label::before {
+    content: "";
+    display: inline-block;
+    margin-right: 10px;
+    height: 16px;
+    width: 16px;
+    background-color: #007bff;
+    border-radius: 50%;
+}
+
+/* 기본 라디오 버튼 스타일 숨김 */
+.quiz-option input[type='radio'] {
+    display: none;
+}
