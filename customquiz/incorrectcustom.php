@@ -21,11 +21,13 @@
             foreach ($incorrectArray as $custom_id) {
                 $sql = 
                 "UPDATE customwords SET iscorrect = 0 
-                WHERE custom_id = '$custom_id'"
-                AND isCorrect = 1;
+                WHERE custom_id = '$custom_id'
+                AND isCorrect = 1";
                 
                 if ($conn->query($sql) !== TRUE) {
                     echo "Error updating record: " . $conn->error;
                 }
             }
+
+            header("Location: ../main/home.php"); 
 ?>

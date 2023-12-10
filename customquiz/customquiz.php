@@ -253,14 +253,11 @@
 
         // "퀴즈 다시하기" 버튼을 표시
         document.getElementById('restartButton').style.display = 'block';
-        document.getElementById('homeBtn').style.display = 'block';
+        document.getElementById('saveBtn').style.display = 'block';
 
 
         //틀린 custom_id 저장
         console.log(incorrect_id);
-        var incorrectString = incorrect_id.join(',');
-
-        //window.location.href = 'incorrectcustom.php?id=' + incorrectString;
     }
 
     function restartQuiz() {
