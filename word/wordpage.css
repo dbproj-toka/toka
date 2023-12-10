@@ -22,7 +22,7 @@ body {
 
 /* Main Wrapper Style */
 .Wrapper {
-  max-width: 600px; /* 필요에 따라 너비 조정 */
+  max-width: 700px; /* 필요에 따라 너비 조정 */
   margin: 0 auto; /* 자동 마진으로 중앙 정렬 */
   padding: 20px; /* 패딩 설정 */
   background-color: #f4f4f4; /* 배경색은 연한 회색 */
@@ -60,36 +60,38 @@ body {
 }
 
   
-/* 카테고리 리스트 스타일 */
+/* 카테고리 리스트 스타일 조정 */
 .category-list {
-  width: 100%; /* 스크롤 가능 영역의 전체 너비 사용 */
-  list-style: none; /* 기본 리스트 스타일 제거 */
-  padding: 0; /* 기본 패딩 제거 */
-  display: flex; /* 플렉스박스 레이아웃 사용 */
-  flex-wrap: wrap; /* 내용이 넘칠 때 다음 줄로 감싸기 */
-  justify-content: space-between; /* 항목 사이에 공간 배분 */
-  gap: 10px; /* 항목 사이의 간격 */
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-
   
 /* 카테고리 리스트 항목 스타일 */
 .category-list li {
-  width: calc(50% - 10px); /* 2열을 만들기 위해 너비 조정, 간격 고려 */
-  background-color: #ffffff; /* 카드 배경색 */
-  padding: 15px; /* 내부 여백 */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 입체감을 주는 그림자 */
-  border-radius: 8px; /* 둥근 모서리 */
-  display: flex; /* 내부 레이아웃을 위한 플렉스박스 사용 */
-  align-items: center; /* 항목을 세로로 중앙 정렬 */
-  justify-content: space-between; /* 내부 내용 사이에 공간 배분 */
-  font-family: 'Pretendard-Regular', sans-serif; /* 폰트 패밀리 설정 */
+  
+  width: calc(50% - 50px); /* 2열을 만들기 위해 너비 조정 */
+  background-color: #ffffff;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  display: flex;
+  justify-content: start; /* 내부 요소들을 왼쪽으로 정렬합니다 */
+  border-left: solid 10px #7F96E8;
+  margin: 5px 10px;
 }
 
 .word {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}  
+  display: flex;
+  align-items: center;
+  justify-content: start; /* 요소들을 컨테이너 시작점에 정렬합니다 */
+  width: 100%;
+}
   
   /* Category Number Style */
   .category-number {
@@ -100,27 +102,33 @@ body {
     font-weight: bold; /* Bold font weight for ID */
 }
   
+
 .english-word {
-  font-weight: bold; /* 영어 단어는 굵게 표시 */
-  margin-right: 10px; /* 영어 단어와 품사 사이에 여백을 줌 */
-  padding-left: 20px;
-  font-size: large;
+  font-weight: bold;
+  padding-left: 10px; /* 왼쪽 패딩 유지 */
+  font-size: 18px;
+  text-align: left; /* 텍스트를 왼쪽으로 정렬합니다 */
+  margin-right: auto; /* 오른쪽에 자동 마진을 추가하여 나머지 요소들을 오른쪽으로 밀어냅니다 */
 }
 
 .word-translations {
-  font-weight: bold; /* 영어 단어는 굵게 표시 */
-  justify-content: flex-end; /* 오른쪽 정렬 */
+  display: flex;
+  justify-content: space-between; /* 두 요소 사이에 공간을 만듭니다 */
+  align-items: center; /* 세로 방향 중앙 정렬 */
 }
 
 .part-of-speech {
-  font-weight: bold; /* 영어 단어는 굵게 표시 */
-  margin-right: 10px; /* 품사와 한국어 단어 사이에 여백을 줌 */
+  font-weight: bold;
+  font-size: 15px;
+  color: grey;
+  padding-right: 10px; /* 품사와 한국어 단어 사이의 간격을 위해 오른쪽 패딩을 추가합니다 */
 }
 
 .korean-word {
-  font-size: large;
-  color: #555; /* 한국어 단어는 조금 더 진한 색으로 표시 */
-  text-align: right;
+  font-size: 16px;
+  color: #555;
+  font-weight: bold; /* 한국어 단어를 강조하기 위해 굵게 합니다 */
+  padding-right: 5px; /* 컨테이너 끝과의 간격을 위해 오른쪽 패딩을 추가합니다 */
 }
 
 .back-button-container {

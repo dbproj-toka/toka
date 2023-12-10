@@ -18,12 +18,12 @@
     <!-- 네비게이션 바 -->
     <?php include '../navigator.php'; ?>
 
-     <!-- 정상적으로 로그인하여 접속했을 때 -->
+    <!-- 정상적으로 로그인하여 접속했을 때 -->
     <?php
       if ( $jb_login ) {
-    ?>  
+    ?>
 
-        <?php
+    <?php
         $host = "localhost";
         $user = "root";
         $pass = "root";
@@ -59,13 +59,13 @@
                     ];
                 }
             
-                // 잘못된 답안 가져오기 (올바른 답을 제외하고)
-                $wrongAnswersSql = "SELECT c_korean FROM customwords WHERE user_id = '$identifier' AND custom_id != '$custom_id' ORDER BY RAND() LIMIT 3";
-                $wrongAnswersResult = $conn->query($wrongAnswersSql);
-            
-                while ($wrongAnswerRow = $wrongAnswersResult->fetch_assoc()) {
-                    $question['options'][] = $wrongAnswerRow['c_korean'];
-                }
+            // 올바른 답을 제외한 잘못된 답안 가져오기
+            $wrongAnswersSql = "SELECT korean FROM words WHERE NOT english = '" . $question['c_english'] . "' ORDER BY RAND() LIMIT 3";
+            $wrongAnswersResult = $conn->query($wrongAnswersSql);
+
+            while ($wrongAnswerRow = $wrongAnswersResult->fetch_assoc()) {
+                $question['options'][] = $wrongAnswerRow['korean'];
+            }
             
                 if (!empty($question)) {
                     $questions[] = $question;
@@ -84,7 +84,7 @@
     <?php
       } else {
     ?>
-      <h1>Invalid Access</h1>
+    <h1>Invalid Access</h1>
     <?php
       }
     ?>
@@ -145,7 +145,9 @@
             var options = getShuffledOptions(question);
             var quizContent = "<h2>" + question.c_english + "</h2>";
             for (var i = 0; i < options.length; i++) {
-                quizContent += "<label class='quiz-option' onclick='handleLabelClick(this)'><input type='radio' name='answer' value='" + options[i] +
+                quizContent +=
+                    "<label class='quiz-option' onclick='handleLabelClick(this)'><input type='radio' name='answer' value='" +
+                    options[i] +
                     "'>" + options[i] + "</label><br>";
             }
             document.getElementById('quizContent').innerHTML = quizContent;
@@ -179,7 +181,7 @@
         console.log("Label clicked:", label);
 
         // 모든 라벨에 대한 선택 제거
-        document.querySelectorAll('.quiz-option').forEach(function (option) {
+        document.querySelectorAll('.quiz-option').forEach(function(option) {
             option.classList.remove('selected');
         });
 
@@ -219,7 +221,7 @@
         // "퀴즈 다시하기" 버튼을 표시
         document.getElementById('restartButton').style.display = 'block';
         document.getElementById('homeBtn').style.display = 'block';
-        
+
 
         //틀린 custom_id 저장
         console.log(incorrect_id);
@@ -246,7 +248,6 @@
     function goHome() {
         window.location.href = '../main/home.php';
     }
-
     </script>
 </body>
 
