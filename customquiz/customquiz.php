@@ -18,12 +18,12 @@
     <!-- 네비게이션 바 -->
     <?php include '../navigator.php'; ?>
 
-     <!-- 정상적으로 로그인하여 접속했을 때 -->
+    <!-- 정상적으로 로그인하여 접속했을 때 -->
     <?php
       if ( $jb_login ) {
-    ?>  
+    ?>
 
-        <?php
+    <?php
         $host = "localhost";
         $user = "root";
         $pass = "root";
@@ -86,7 +86,7 @@
     <?php
       } else {
     ?>
-      <h1>Invalid Access</h1>
+    <h1>Invalid Access</h1>
     <?php
       }
     ?>
@@ -129,7 +129,8 @@
             <h2 id="sub">SCORE</h2>
             <div id="score">0</div>
             <button id="restartButton" onclick="restartQuiz()" style="display: none;">Retry</button>
-            <button id="saveBtn" onclick="saveIncorrect()" style="display: none;">Save Incorrect Quizzes to Review</button>
+            <button id="saveBtn" onclick="saveIncorrect()" style="display: none;">Save Incorrect Quizzes to
+                Review</button>
         </div>
     </div>
 
@@ -165,7 +166,9 @@
             var options = getShuffledOptions(question);
             var quizContent = "<h2>" + question.c_english + "</h2>";
             for (var i = 0; i < options.length; i++) {
-                quizContent += "<label class='quiz-option' onclick='handleLabelClick(this)'><input type='radio' name='answer' value='" + options[i] +
+                quizContent +=
+                    "<label class='quiz-option' onclick='handleLabelClick(this)'><input type='radio' name='answer' value='" +
+                    options[i] +
                     "'>" + options[i] + "</label><br>";
             }
             document.getElementById('quizContent').innerHTML = quizContent;
@@ -199,7 +202,7 @@
         console.log("Label clicked:", label);
 
         // 모든 라벨에 대한 선택 제거
-        document.querySelectorAll('.quiz-option').forEach(function (option) {
+        document.querySelectorAll('.quiz-option').forEach(function(option) {
             option.classList.remove('selected');
         });
 
@@ -221,7 +224,7 @@
         if (selectedAnswer) {
             if (selectedAnswer.value === questions[currentQuestion].c_korean) {
                 score += 10;
-                
+
                 selectedQuizOption.style.backgroundColor = '#00DF66';
             } else {
                 //틀린 번호의 custom_id 추가해주기
@@ -229,14 +232,14 @@
 
                 selectedQuizOption.style.backgroundColor = '#FF6969';
             }
-            
+
             document.getElementById('currentScore').innerText = score;
 
             //1초 뒤에 수행하는 코드
             setTimeout(function() {
                 currentQuestion++;
                 displayQuestion();
-            }, 1000); 
+            }, 1000);
         } else {
             alert('답을 선택해주세요.');
         }
@@ -250,8 +253,14 @@
 
         // "퀴즈 다시하기" 버튼을 표시
         document.getElementById('restartButton').style.display = 'block';
-        document.getElementById('saveBtn').style.display = 'block';
-        
+        document.getElementById('homeBtn').style.display = 'block';
+
+
+        //틀린 custom_id 저장
+        console.log(incorrect_id);
+        var incorrectString = incorrect_id.join(',');
+
+        //window.location.href = 'incorrectcustom.php?id=' + incorrectString;
     }
 
     function restartQuiz() {
@@ -277,7 +286,6 @@
 
         //window.location.href = 'incorrectcustom.php?id=' + incorrectString;
     }
-
     </script>
 </body>
 
