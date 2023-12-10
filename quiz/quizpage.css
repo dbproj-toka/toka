@@ -1,0 +1,8 @@
+.text-left {
+    text-align: left;
+}
+
+.text-5xl {
+    font-size: 5rem; /* Adjust the font size as needed */
+    /* Add any other styles you want for the text-5xl class */
+}
