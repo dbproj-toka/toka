@@ -45,32 +45,55 @@
             $questions = []; // 퀴즈 데이터를 저장할 배열 초기화
             while ($row = $result->fetch_assoc()) {
                 $custom_id = $row['custom_id'];
-            
-                // 올바른 답 가져오기
-                $customWordsSql = "SELECT custom_id, c_korean, c_english FROM customwords WHERE user_id = '$identifier' AND custom_id = '$custom_id' ORDER BY RAND() LIMIT 1";
-                $customWordsResult = $conn->query($customWordsSql);
-                $question = [];
-            
-                if ($customWordRow = $customWordsResult->fetch_assoc()) {
-                    $question = [
-                        'custom_id' => $customWordRow['custom_id'], 
-                        'c_english' => $customWordRow['c_english'], 
-                        'c_korean' => $customWordRow['c_korean'],
-                        'options' => [$customWordRow['c_korean']]
-                    ];
-                }
-            
-                 // 올바른 답을 제외한 잘못된 답안 가져오기
-                $wrongAnswersSql = "SELECT korean FROM words WHERE NOT english = '" . $question['c_english'] . "' ORDER BY RAND() LIMIT 3";
-                $wrongAnswersResult = $conn->query($wrongAnswersSql);
 
-                while ($wrongAnswerRow = $wrongAnswersResult->fetch_assoc()) {
-                    $question['options'][] = $wrongAnswerRow['korean'];
+                $sqlQuiz = "SELECT 
+                    cw.custom_id, cw.c_korean, cw.c_english,
+                    (
+                        SELECT w.korean
+                        FROM words AS w
+                        WHERE NOT w.english = cw.c_english
+                        ORDER BY RAND()
+                        LIMIT 1
+                    ) AS wrong_answer1,
+                    (
+                        SELECT w.korean
+                        FROM words AS w
+                        WHERE NOT w.english = cw.c_english
+                        ORDER BY RAND()
+                        LIMIT 1
+                    ) AS wrong_answer2,
+                    (
+                        SELECT w.korean
+                        FROM words AS w
+                        WHERE NOT w.english = cw.c_english
+                        ORDER BY RAND()
+                        LIMIT 1
+                    ) AS wrong_answer3
+                FROM customwords AS cw
+                WHERE cw.custom_id=$custom_id";
+
+                $resultQuiz = $conn->query($sqlQuiz);
+
+                while ($row = $resultQuiz->fetch_assoc()) {
+                    $question = [
+                        'custom_id' => $row['custom_id'],
+                        'c_english' => $row['c_english'],
+                        'c_korean' => $row['c_korean'],
+                        'options' => [
+                            $row['c_korean'],
+                            $row['wrong_answer1'],
+                            $row['wrong_answer2'],
+                            $row['wrong_answer3']
+                        ]
+                    ];
+            
+                    // 옵션을 랜덤하게 섞음
+                    shuffle($question['options']);
                 }
-                
-                    if (!empty($question)) {
-                        $questions[] = $question;
-                    }
+
+                if (!empty($question)) {
+                    $questions[] = $question;
+                }
             }
             
 
@@ -79,6 +102,7 @@
 
             // 데이터베이스 연결 종료
             $conn->close();
+            
         }
         ?>
 
