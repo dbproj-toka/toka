@@ -14,8 +14,8 @@ if (isset($custom_id)) {
         die("Connection failed: " . $conn->connect_error);
     }
     
-    // isCorrect를 0으로 업데이트
-    $sql = "UPDATE customwords SET isCorrect = 0 WHERE custom_id = ?";
+    // isCorrect를 1로 업데이트
+    $sql = "UPDATE customwords SET isCorrect = 1 WHERE custom_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $custom_id);
     
