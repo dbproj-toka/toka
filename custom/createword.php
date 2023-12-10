@@ -111,7 +111,7 @@
                 if($checkresult->num_rows < 1) {
 
                      //커스텀에 존재하는 단어인지 검사
-                    $checksql2 = "SELECT * FROM customwords WHERE c_english = '$eng'";
+                    $checksql2 = "SELECT * FROM customwords WHERE c_english='$eng' AND user_id='$identifier'";
                     $checkresult2 = $conn->query($checksql2);
 
                     if($checkresult2->num_rows < 1) {

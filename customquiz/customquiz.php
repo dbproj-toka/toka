@@ -15,115 +15,137 @@
 </head>
 
 <body>
+    <!-- 네비게이션 바 -->
     <?php include '../navigator.php'; ?>
 
+     <!-- 정상적으로 로그인하여 접속했을 때 -->
     <?php
-    // 데이터베이스 연결 설정
-    $host = "localhost";
-    $user = "root";
-    $pass = "root";
-    $db = "toka";
+      if ( $jb_login ) {
+    ?>  
 
-    $conn = new mysqli($host, $user, $pass, $db);
+        <?php
+        $host = "localhost";
+        $user = "root";
+        $pass = "root";
+        $db = "toka";
 
-    if ($conn->connect_error) {
-        die("연결실패: " . $conn->connect_error);
-    }
+        $conn = new mysqli($host, $user, $pass, $db);
 
-    // 세션을 시작합니다.
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
-
-    // 로그인한 사용자의 user_id를 확인합니다.
-    if (isset($_SESSION['user_id'])) {
-        $user_id = $_SESSION['user_id'];
-        // 화면에 출력
-        echo "현재 로그인된 사용자의 user_id: " . $user_id;
-    } else {
-        // 로그인되지 않은 사용자 처리를 수행합니다.
-        echo "로그인되지 않았습니다.";
-    }
-
-// 사용자의 user_id와 일치하는 custom_id 가져오기
-$sql = "SELECT custom_id FROM customwords WHERE user_id = '1'";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    $questions = []; // 퀴즈 데이터를 저장할 배열 초기화
-    while ($row = $result->fetch_assoc()) {
-        $custom_id = $row['custom_id'];
-    
-        // 올바른 답 가져오기
-        $customWordsSql = "SELECT c_korean, c_english FROM customwords WHERE user_id = '1' AND custom_id = '$custom_id' ORDER BY RAND() LIMIT 1";
-        $customWordsResult = $conn->query($customWordsSql);
-        
-        if ($customWordRow = $customWordsResult->fetch_assoc()) {
-            $question = [
-                'c_english' => $customWordRow['c_english'], 
-                'c_korean' => $customWordRow['c_korean'],
-                'options' => [$customWordRow['c_korean']]
-            ];
-
-            // 잘못된 답안 가져오기 (올바른 답을 제외하고)
-            $wrongAnswersSql = "SELECT c_korean FROM customwords WHERE user_id = '1' AND custom_id != '$custom_id' ORDER BY RAND() LIMIT 3";
-            $wrongAnswersResult = $conn->query($wrongAnswersSql);
-        
-            while ($wrongAnswerRow = $wrongAnswersResult->fetch_assoc()) {
-                $question['options'][] = $wrongAnswerRow['c_korean'];
-            }
-
-            if (!empty($question)) {
-                $questions[] = $question;
-            }
+        if ($conn->connect_error) {
+            die("연결실패: " . $conn->connect_error);
         }
-    }
-    // 모든 질문이 추가된 후에 $questions 배열의 순서를 랜덤으로 섞음
-    shuffle($questions);
 
-    // 데이터베이스 연결 종료
-    $conn->close();
-}
+        // 사용자의 user_id와 일치하는 custom_id 가져오기
+        $sql = "SELECT custom_id FROM customwords WHERE user_id = '$identifier'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // 사용자의 custom_id 목록이 있는 경우
+            $questions = []; // 퀴즈 데이터를 저장할 배열 초기화
+            while ($row = $result->fetch_assoc()) {
+                $custom_id = $row['custom_id'];
+            
+                // 올바른 답 가져오기
+                $customWordsSql = "SELECT custom_id, c_korean, c_english FROM customwords WHERE user_id = '$identifier' AND custom_id = '$custom_id' ORDER BY RAND() LIMIT 1";
+                $customWordsResult = $conn->query($customWordsSql);
+                $question = [];
+            
+                if ($customWordRow = $customWordsResult->fetch_assoc()) {
+                    $question = [
+                        'custom_id' => $customWordRow['custom_id'], 
+                        'c_english' => $customWordRow['c_english'], 
+                        'c_korean' => $customWordRow['c_korean'],
+                        'options' => [$customWordRow['c_korean']]
+                    ];
+                }
+            
+                // 잘못된 답안 가져오기 (올바른 답을 제외하고)
+                $wrongAnswersSql = "SELECT c_korean FROM customwords WHERE user_id = '$identifier' AND custom_id != '$custom_id' ORDER BY RAND() LIMIT 3";
+                $wrongAnswersResult = $conn->query($wrongAnswersSql);
+            
+                while ($wrongAnswerRow = $wrongAnswersResult->fetch_assoc()) {
+                    $question['options'][] = $wrongAnswerRow['c_korean'];
+                }
+            
+                if (!empty($question)) {
+                    $questions[] = $question;
+                }
+            }
+
+            // 모든 질문이 추가된 후에 $questions 배열의 순서를 랜덤으로 섞음
+            shuffle($questions);
+
+            // 데이터베이스 연결 종료
+            $conn->close();
+        }
+        ?>
+
+    <!-- 그냥 접속했을 때 -->
+    <?php
+      } else {
     ?>
+      <h1>Invalid Access</h1>
+    <?php
+      }
+    ?>
+
     <script type="text/javascript">
     var questions = <?php echo json_encode($questions); ?>;
     document.getElementById('nextButton').style.display = 'none';
     </script>
 
 
-    <div id="quizPage" class="quiz-container">
-        <div id="quizContent"></div>
-        <button id="startButton" onclick="startQuiz()">Start</button>
-        <button id="nextButton" onclick="nextQuestion()" style="display: none;">Next question</button>
+    <!-- 퀴즈 컨테이너 -->
+    <div class="quizWrap" id="quizWrap">
+        <div id="quizPage" class="quiz-container">
+            <!-- 퀴즈 영어 단어 -->
+            <div id="quizContent"></div>
+            <!-- 퀴즈 시작 버튼 -->
+            <button id="startButton" onclick="startQuiz()">Start</button>
+            <!-- 다음 퀴즈 버튼 -->
+            <button id="nextButton" onclick="nextQuestion()" style="display: none;" disabled>Check & Go Next</button>
+        </div>
     </div>
 
-    <div id="resultPage" class="quiz-container">
-        <h2>SCORE <span id="score">0</span></h2>
-        <button id="restartButton" onclick="restartQuiz()" style="display: none;">Retry</button>
+    <!-- 결과 페이지 -->
+    <div class="resultWrap" id="resultWrap" style="display: none;">
+        <div id="resultPage" class="quiz-container">
+            <h2 id="sub">SCORE</h2>
+            <div id="score">0</div>
+            <button id="restartButton" onclick="restartQuiz()" style="display: none;">Retry</button>
+            <button id="homeBtn" onclick="goHome()" style="display: none;">Go Home</button>
+        </div>
     </div>
-
 
 
     <script>
     // JavaScript 코드
     var currentQuestion = 0;
     var score = 0;
+    var incorrect_id = [];
 
+    //퀴즈 시작
     function startQuiz() {
         document.getElementById('startButton').style.display = 'none';
         document.getElementById('quizPage').style.display = 'block';
+        document.getElementById('quizPage').style.backgroundColor = 'white';
+        document.getElementById('quizPage').style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+
         // 퀴즈 시작 시 `nextButton` 표시
         document.getElementById('nextButton').style.display = 'block';
+
+        //퀴즈 보여주기
         displayQuestion();
     }
 
+    //퀴즈 보여주기
     function displayQuestion() {
         var question = questions[currentQuestion];
         if (question) {
             var options = getShuffledOptions(question);
             var quizContent = "<h2>" + question.c_english + "</h2>";
             for (var i = 0; i < options.length; i++) {
-                quizContent += "<label class='quiz-option'><input type='radio' name='answer' value='" + options[i] +
+                quizContent += "<label class='quiz-option' onclick='handleLabelClick(this)'><input type='radio' name='answer' value='" + options[i] +
                     "'>" + options[i] + "</label><br>";
             }
             document.getElementById('quizContent').innerHTML = quizContent;
@@ -151,11 +173,35 @@ if ($result->num_rows > 0) {
         }
     }
 
+    //선택된 옵션에 css 주려고 class 추가하는 거//
+    function handleLabelClick(label) {
+        // 이 함수에서 원하는 동작 수행
+        console.log("Label clicked:", label);
+
+        // 모든 라벨에 대한 선택 제거
+        document.querySelectorAll('.quiz-option').forEach(function (option) {
+            option.classList.remove('selected');
+        });
+
+        // 클릭된 라벨에 대한 선택 표시
+        label.classList.add('selected');
+
+        // 선택된 클래스가 추가되었을 때만 "Next question" 버튼을 활성화
+        var nextButton = document.getElementById('nextButton');
+        nextButton.disabled = !label.classList.contains('selected');
+    }
+
     function nextQuestion() {
+        var nextButton = document.getElementById('nextButton');
+        nextButton.disabled = true;
+
         var selectedAnswer = document.querySelector('input[name="answer"]:checked');
         if (selectedAnswer) {
             if (selectedAnswer.value === questions[currentQuestion].c_korean) {
                 score += 10;
+            } else {
+                //틀린 번호의 custom_id 추가해주기
+                incorrect_id.push(questions[currentQuestion].custom_id);
             }
             currentQuestion++;
             displayQuestion();
@@ -165,26 +211,42 @@ if ($result->num_rows > 0) {
     }
 
     function showResult() {
-        document.getElementById('quizPage').style.display = 'none';
-        document.getElementById('resultPage').style.display = 'block';
+        document.getElementById('quizWrap').style.display = 'none';
+        document.getElementById('resultWrap').style.display = 'flex';
+        document.getElementById('resultPage').style.display = 'flex';
         document.getElementById('score').innerText = score;
 
         // "퀴즈 다시하기" 버튼을 표시
         document.getElementById('restartButton').style.display = 'block';
+        document.getElementById('homeBtn').style.display = 'block';
+        
+
+        //틀린 custom_id 저장
+        console.log(incorrect_id);
+        var incorrectString = incorrect_id.join(',');
+
+        //window.location.href = 'incorrectcustom.php?id=' + incorrectString;
     }
 
     function restartQuiz() {
         currentQuestion = 0;
         score = 0;
+        incorrect_id = [];
 
-        document.getElementById('quizPage').style.display = 'block';
-        document.getElementById('resultPage').style.display = 'none';
+        document.getElementById('quizWrap').style.display = 'flex';
+        document.getElementById('resultWrap').style.display = 'none';
 
         // "퀴즈 다시하기" 버튼을 다시 숨김
         document.getElementById('restartButton').style.display = 'none';
+        document.getElementById('homeBtn').style.display = 'none';
 
         displayQuestion();
     }
+
+    function goHome() {
+        window.location.href = '../main/home.php';
+    }
+
     </script>
 </body>
 

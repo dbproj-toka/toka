@@ -23,6 +23,20 @@ body {
 
 
 
+/* 내용 */
+.wrapper {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+
 
 /* Title & Create button */
 .titleWrap {
@@ -72,7 +86,7 @@ body {
 .scrollable {
     width: 100%; /* 래퍼의 전체 너비 사용 */
     max-width: 100%; /* 필요한 경우 래퍼의 최대 너비와 일치 */
-    height: 600px;
+    height: 85%;
     margin: 20px auto; /* 중앙 정렬 */
     overflow-y: auto; /* 필요에 따라 세로 스크롤바 표시 */
     background: #ffffff00; /* 배경색 */
@@ -82,6 +96,20 @@ body {
     flex-direction: column; /* 항목을 세로로 쌓기 */
     gap: 10px; /* 항목 사이의 간격 */
   }
+
+/* 수직 스크롤바 */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ACBAED;/* 스크롤바 색상 */
+    border-radius: 6px; /* 둥근 경계 반지름 설정 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #A6DCBF;/* 마우스 호버 시 스크롤바 색상 변경 */
+}
 
 .list {
     width: 100%; /* 스크롤 가능 영역의 전체 너비 사용 */
