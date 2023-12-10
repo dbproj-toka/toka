@@ -272,7 +272,6 @@
         //틀린 custom_id 저장
         console.log(incorrect_id);
         var incorrectString = incorrect_id.join(',');
-
     }
 
     function restartQuiz() {

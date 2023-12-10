@@ -28,4 +28,5 @@ if (isset($custom_id)) {
     $stmt->close();
     $conn->close();
 }
+
 ?>
