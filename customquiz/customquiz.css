@@ -215,12 +215,14 @@ input[type='text'] {
 
 /* 라벨 클릭 가능 영역 확장 */
 .quiz-option label {
-    display: block; /* 라벨을 블록 레벨 요소로 만듦 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-    margin-left: 0; /* 가운데 정렬을 위해 왼쪽 마진 제거 */
-    padding: 10px; /* 패딩 조정 */
+    display: block;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
     cursor: pointer;
-    width: 100%; /* 라벨 너비를 부모의 100%로 설정 */
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 /* 선택된 옵션 */
@@ -235,4 +237,9 @@ input[type='text'] {
 /* 기본 라디오 버튼 스타일 숨김 */
 .quiz-option input[type='radio'] {
     display: none;
+}
+
+/* 라벨에 마우스 호버 시의 스타일 */
+.quiz-option label:hover {
+    background-color: #e2e6ea;
 }
