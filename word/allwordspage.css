@@ -1,0 +1,27 @@
+/* 검색 폼 스타일링 */
+.search-form {
+    text-align: center;
+    margin: 20px 0;
+    padding-left: 700px;
+}
+
+.search-form input[type="text"] {
+    width: 20%; /* 폼 너비 */
+    padding: 7px; /* 내부 여백 */
+    border: 1px solid #ddd; /* 테두리 색상 */
+    border-radius: 5px; /* 둥근 모서리 */
+    margin-right: 10px; /* 오른쪽 여백 */
+}
+
+.search-form button {
+    padding: 7px 20px; /* 버튼 내부 여백 */
+    border-radius: 5px; /* 둥근 모서리 */
+    background-color: #7F96E8; /* 배경 색상 */
+    color: white; /* 텍스트 색상 */
+    border: none; /* 테두리 제거 */
+    cursor: pointer; /* 커서 스타일 */
+}
+
+.search-form button:hover {
+    background-color: #687cc5; /* 호버 시 배경 색상 */
+}

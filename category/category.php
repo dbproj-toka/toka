@@ -39,9 +39,12 @@
         </div>
 
         <div class="scrollable">
+            <div class="back-button-container">
+                <button onclick="location.href='../word/allwordspage.php'" class="btn btn-default">Search All
+                    Words</button>
+            </div>
             <!-- 카테고리 리스트 출력 -->
-            <ul>
-                <?php
+            <?php
             
         // 카테고리 데이터를 가져오는 쿼리 실행
     
@@ -62,7 +65,6 @@
                 echo '</a>';
 
             }
-            echo '</ul>';
         } else {
             echo "0 results";
         }
