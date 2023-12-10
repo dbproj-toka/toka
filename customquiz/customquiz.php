@@ -45,29 +45,26 @@
         echo "로그인되지 않았습니다.";
     }
 
-    // 사용자의 user_id와 일치하는 custom_id 가져오기
-    $sql = "SELECT custom_id FROM customwords WHERE user_id = '1'";
-    $result = $conn->query($sql);
+// 사용자의 user_id와 일치하는 custom_id 가져오기
+$sql = "SELECT custom_id FROM customwords WHERE user_id = '1'";
+$result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        // 사용자의 custom_id 목록이 있는 경우
-        $questions = []; // 퀴즈 데이터를 저장할 배열 초기화
-        while ($row = $result->fetch_assoc()) {
-            $custom_id = $row['custom_id'];
+if ($result->num_rows > 0) {
+    $questions = []; // 퀴즈 데이터를 저장할 배열 초기화
+    while ($row = $result->fetch_assoc()) {
+        $custom_id = $row['custom_id'];
+    
+        // 올바른 답 가져오기
+        $customWordsSql = "SELECT c_korean, c_english FROM customwords WHERE user_id = '1' AND custom_id = '$custom_id' ORDER BY RAND() LIMIT 1";
+        $customWordsResult = $conn->query($customWordsSql);
         
-            // 올바른 답 가져오기
-            $customWordsSql = "SELECT c_korean, c_english FROM customwords WHERE user_id = '1' AND custom_id = '$custom_id' ORDER BY RAND() LIMIT 1";
-            $customWordsResult = $conn->query($customWordsSql);
-            $question = [];
-        
-            if ($customWordRow = $customWordsResult->fetch_assoc()) {
-                $question = [
-                    'c_english' => $customWordRow['c_english'], 
-                    'c_korean' => $customWordRow['c_korean'],
-                    'options' => [$customWordRow['c_korean']]
-                ];
-            }
-        
+        if ($customWordRow = $customWordsResult->fetch_assoc()) {
+            $question = [
+                'c_english' => $customWordRow['c_english'], 
+                'c_korean' => $customWordRow['c_korean'],
+                'options' => [$customWordRow['c_korean']]
+            ];
+
             // 잘못된 답안 가져오기 (올바른 답을 제외하고)
             $wrongAnswersSql = "SELECT c_korean FROM customwords WHERE user_id = '1' AND custom_id != '$custom_id' ORDER BY RAND() LIMIT 3";
             $wrongAnswersResult = $conn->query($wrongAnswersSql);
@@ -75,14 +72,18 @@
             while ($wrongAnswerRow = $wrongAnswersResult->fetch_assoc()) {
                 $question['options'][] = $wrongAnswerRow['c_korean'];
             }
-        
+
             if (!empty($question)) {
                 $questions[] = $question;
             }
         }
-        // 데이터베이스 연결 종료
-        $conn->close();
     }
+    // 모든 질문이 추가된 후에 $questions 배열의 순서를 랜덤으로 섞음
+    shuffle($questions);
+
+    // 데이터베이스 연결 종료
+    $conn->close();
+}
     ?>
     <script type="text/javascript">
     var questions = <?php echo json_encode($questions); ?>;

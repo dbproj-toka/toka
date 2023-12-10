@@ -152,30 +152,24 @@ input[type='text'] {
     display: none;
 }
 
-/* 라디오 버튼이 선택되었을 때 레이블 스타일 변경 */
 .quiz-option input[type='radio']:checked + label {
-    background-color: #e9ecef;
-    border-color: #007bff;
+    background-color: #d1e7fd; /* 선택된 배경 색상 */
+    border-color: #007bff; /* 선택된 테두리 색상 */
+    color: #000; /* 선택된 텍스트 색상 */
+    font-weight: bold; /* 텍스트 두께 강조 */
 }
 
-/* 라벨 클릭 가능 영역 확장 */
+/* 라벨 스타일 */
 .quiz-option label {
-    display: block; /* 라벨을 블록 레벨 요소로 만듦 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-    margin-left: 0; /* 가운데 정렬을 위해 왼쪽 마진 제거 */
-    padding: 10px; /* 패딩 조정 */
+    display: block;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
     cursor: pointer;
-    width: 100%; /* 라벨 너비를 부모의 100%로 설정 */
+    transition: background-color 0.3s, border-color 0.3s;
 }
-
-/* 라디오 버튼이 선택되었을 때 스타일 */
-.quiz-option input[type='radio']:checked + label {
-    background-color: #d1e7fd;
-    border-color: #007bff;
-    /* 여기서도 text-align: center; 를 추가해야 합니다만,
-       이미 .quiz-option label에 정의되어 있으므로 생략 가능 */
-}
-
 
 /* 라디오 버튼 선택 시 표시 스타일 */
 .quiz-option input[type='radio']:checked + label::before {
@@ -191,4 +185,9 @@ input[type='text'] {
 /* 기본 라디오 버튼 스타일 숨김 */
 .quiz-option input[type='radio'] {
     display: none;
+}
+
+/* 라벨에 마우스 호버 시의 스타일 */
+.quiz-option label:hover {
+    background-color: #e2e6ea;
 }
