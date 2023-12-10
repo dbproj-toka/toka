@@ -21,7 +21,7 @@
     # 본인 sql 서버에 맞게 수정하기 #
     $host = "localhost";
     $user = "root";
-    $pass = "root";
+    $pass = "qkrwnsdyd0416";
     $db = "toka";
 
     $conn = new mysqli($host, $user, $pass, $db);
@@ -29,60 +29,57 @@
     if ($conn->connect_error) {
         die("연결실패: " . $conn->connect_error);
     }
+    
 
     // 카테고리 id 값이 같은 word 데이터들을 가져오기
-    $categoryId = 11; // Replace with the desired category_id
+    $categoryId = $_GET['category']; // Replace with the desired category_id
     $count = 3;
 
-    $getCorrectWordListQuery = "SELECT * FROM words WHERE categoryId = $categoryId";
-    $getCategoryName = "SELECT category_name as name FROM category WHERE identifier = $categoryId";
+    // 정답 단어에 대한 쿼리에서 뷰를 사용합니다.
+$getCorrectWordListQuery = "SELECT * FROM words WHERE categoryId = $categoryId";
+$getCategoryName = "SELECT category_name as name FROM category WHERE identifier = $categoryId";
 
-    $categoryName = $conn->query($getCategoryName)->fetch_assoc();
-    $result = $conn->query($getCorrectWordListQuery);
+$categoryName = $conn->query($getCategoryName)->fetch_assoc();
+$result = $conn->query($getCorrectWordListQuery);
 
-    // 결과를 담을 배열 초기화
-    $correctWordList = array();
-    // 쿼리 결과가 있는지 확인
-    if ($result->num_rows > 0) {
-        // 결과를 배열로 변환
-        while ($row = $result->fetch_assoc()) {
-            $correctWordList[] = $row;
-        }
-        // 배열 셔플
-        shuffle($correctWordList);
-    } else {
-        echo "0 results";
+// 결과를 담을 배열 초기화
+$correctWordList = array();
+// 쿼리 결과가 있는지 확인
+if ($result->num_rows > 0) {
+    // 결과를 배열로 변환
+    while ($row = $result->fetch_assoc()) {
+        $correctWordList[] = $row;
     }
-    
+    // 배열 셔플
+    shuffle($correctWordList);
+} else {
+    echo "0 results";
+}
 
-    // 이제 correctWordList에서 순서대로 문제를 내면 된다
-    // correctWordList를 순회하며 동일한 part를 가진 가짜 문항 count개 조회
-    $failWordList = array();
-    foreach ($correctWordList as &$word) {
-        // 현재 요소의 'part' 값을 가져옴
-        $currentPart = $word['part'];
-        
-        // 현재 요소와 다른 랜덤 데이터 count개를 가져오기 위한 SQL 쿼리
-        $randomSeed = time();
-        $correctWordId = $word['word_id'];
-        $randomDataQuery = 
-        "SELECT * FROM words 
-        WHERE part = '$currentPart' AND word_id != $correctWordId 
-        ORDER BY RAND($randomSeed) 
+// 오답 단어에 대한 쿼리에서 뷰를 사용합니다.
+$failWordList = array();
+foreach ($correctWordList as &$word) {
+    // Get the 'part' value of the current element
+    $currentPart = $word['part'];
+
+    // SQL query to retrieve count random data different from the current element
+    $randomDataQuery =
+        "SELECT * FROM vw_random_data
+        WHERE part = '$currentPart'
         LIMIT $count";
-   
-        // 쿼리 실행
-        $randomDataResult = $conn->query($randomDataQuery);
-    
-        // 결과를 배열로 변환
-        $randomDataList = array();
-        while ($randomData = $randomDataResult->fetch_assoc()) {
-            $randomDataList[] = $randomData;
-        }
 
-        // failWordList에 순차적으로 저장
-        $failWordList[] = $randomDataList;
+    // execute query
+    $randomDataResult = $conn->query($randomDataQuery);
+
+    // Convert the result to an array
+    $randomDataList = array();
+    while ($randomData = $randomDataResult->fetch_assoc()) {
+        $randomDataList[] = $randomData;
     }
+
+    // Store sequentially in failWordList
+    $failWordList[] = $randomDataList;
+}
 
     $conn->close();
     ?>
@@ -125,14 +122,15 @@
         {$wordIndexI[$columnName]}
         </button>
         </div>";
-
-        // Generate random data button
-        foreach ($failWordIndexI as $randomData) {
-            $allButtons[] = "<div class=\"card bg-white p-6 rounded-lg shadow-md\">
-                <button type=\"button\" class=\"w-full h-full p-4 rounded-md focus:outline-none focus:border-blue-500 border-0\">
-                {$randomData[$columnName]}
-                </button>
-                </div>";
+    
+    // Generate random data button
+    foreach ($failWordIndexI as $randomData) {
+        $isCorrect = $randomData['word_id'] == $wordIndexI['word_id'] ? 'true' : 'false';
+        $allButtons[] = "<div class=\"card bg-white p-6 rounded-lg shadow-md\">
+            <button type=\"button\" class=\"w-full h-full p-4 rounded-md focus:outline-none focus:border-blue-500 border-0 wordButton\" data-is-correct=\"$isCorrect\">
+            {$randomData[$columnName]}
+            </button>
+        </div>";
         }
 
         // Button count + 1 shuffle
@@ -150,22 +148,30 @@
 </div>
 
 <script>
-        let correctCount = 0;
-        let currentSetIndex = 1;
-        const totalSets = <?php echo $wordLength; ?>;
+    let correctCount = 0;
+    let currentSetIndex = 1;
+    const totalSets = <?php echo $wordLength; ?>;
 
-function resetDisplay() {
-    // Hide all word sets and button sets
-    document.querySelectorAll('.wordSet').forEach(function (element) {
-        element.style.display = 'none';
-    });
+    function resetButtons() {
+        // Clear button colors and enable buttons
+        document.querySelectorAll('.wordButton').forEach(function (button) {
+            button.style.backgroundColor = '';
+            button.disabled = false;
+        });
+    }
 
-    document.querySelectorAll('.buttonSet').forEach(function (element) {
-        element.style.display = 'none';
-    });
-}
+    function resetDisplay() {
+        // Hide all word sets and button sets
+        document.querySelectorAll('.wordSet').forEach(function (element) {
+            element.style.display = 'none';
+        });
 
-document.addEventListener('click', function (event) {
+        document.querySelectorAll('.buttonSet').forEach(function (element) {
+            element.style.display = 'none';
+        });
+    }
+
+    document.addEventListener('click', function (event) {
     const target = event.target;
 
     // Check if the clicked element is a button with the specified class
@@ -179,24 +185,21 @@ document.addEventListener('click', function (event) {
         // Increment correctCount only if the correct button is clicked
         correctCount += isCorrect ? 1 : 0;
 
-        // Increment currentSetIndex
-        currentSetIndex = (currentSetIndex % totalSets) + 1;
-
-        // Update the displayed index and correct count
-        document.getElementById('currentSetIndex').textContent = currentSetIndex;
-        document.getElementById('correctCountDisplay').textContent = `Correct: ${correctCount}`;
-
-        // Disable buttons to prevent further clicks
+        // Disable all buttons to prevent further clicks
         document.querySelectorAll('.wordButton').forEach(function (button) {
             button.disabled = true;
         });
 
         // Clear button colors and enable buttons after 3 seconds
         setTimeout(() => {
-            document.querySelectorAll('.wordButton').forEach(function (button) {
-                button.style.backgroundColor = '';
-                button.disabled = false; // Enable buttons for the next set
-            });
+            resetButtons();
+
+            // Increment currentSetIndex
+            currentSetIndex = (currentSetIndex % totalSets) + 1;
+
+            // Update the displayed index and correct count
+            document.getElementById('currentSetIndex').textContent = currentSetIndex;
+            document.getElementById('correctCountDisplay').textContent = `Correct: ${correctCount}`;
 
             // Show the next word set and buttons, hide others
             resetDisplay();
@@ -205,11 +208,12 @@ document.addEventListener('click', function (event) {
         }, 3000);
     }
 });
-// Initial display setup
-resetDisplay();
-document.getElementById('wordSet1').style.display = 'block';
-document.getElementById('buttonSet1').style.display = 'grid';
-    </script>
+
+    // Initial display setup
+    resetDisplay();
+    document.getElementById('wordSet1').style.display = 'block';
+    document.getElementById('buttonSet1').style.display = 'grid';
+</script>
 <div class="text-right mt-8">
     <span class="text-lg" id="currentSetIndex">1</span> / <?php echo $wordLength; ?>
     <div class="text-sm text-gray-600 mt-1" id="correctCountDisplay">Correct: 0</div>
