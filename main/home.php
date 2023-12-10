@@ -80,22 +80,39 @@
                     <p>Review</p>
                 </div>
 
-                <div class="ranking item" onclick="openCustom()">
+            </div>
+
+            <br><br><br>
+            <!-- Menu -->
+            <div class="subWrapper">
+                <p class="subTitle2 item">Custom Menu</p>
+            </div>
+            <div class="menuWrapper2">
+                <div class="CwordList item" onclick="openCustom()">
                     <div class="icon">
-                        <i class="fa-solid fa-signal fa-3x"></i>
+                        <i class="fa-regular fa-file-lines fa-3x"></i>
                     </div>
-                    <p>Custom Word(임시)</p>
+                    <p>Custom WordList</p>
                 </div>
 
-                <div class="ranking item" onclick="openCustomQuiz()">
+                <div class="Cquiz item" onclick="openCustomQuiz()">
                     <div class="icon">
-                        <i class="fa-solid fa-signal fa-3x"></i>
+                        <i class="fa-solid fa-pencil fa-3x"></i>
                     </div>
-                    <p>Custom Word Quiz(임시)</p>
+                    <p>Custom Quiz</p>
+                </div>
+
+                <div class="Creview item" onclick="openReviewCustomQuiz()">
+                    <div class="icon">
+                        <i class="fa-solid fa-table fa-3x"></i>
+                    </div>
+                    <p>Custom Review</p>
                 </div>
             </div>
+            <div class="spacer"></div>
         </div>
     </div>
+
 
     <!-- 그냥 접속했을 때 -->
     <?php
@@ -134,6 +151,12 @@
     //custom Word Quiz
     function openCustomQuiz() {
         window.location.href = '../customquiz/customquiz.php';
+
+    }
+
+    //Review custom Word Quiz
+    function openReviewCustomQuiz() {
+        window.location.href = '../customquiz/reviewcustomquiz.php';
 
     }
     </script>
