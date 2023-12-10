@@ -275,7 +275,7 @@
         console.log(incorrect_id);
         var incorrectString = incorrect_id.join(',');
 
-        //window.location.href = 'incorrectcustom.php?id=' + incorrectString;
+        window.location.href = 'incorrectcustom.php?id=' + incorrectString;
     }
 
     </script>

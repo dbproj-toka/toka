@@ -18,16 +18,14 @@
             $idString = $_GET['id'];
             $incorrectArray = explode(',', $idString);
 
-            //여기부터 수정하기
-
-            $deleteSql = "DELETE FROM customwords WHERE user_id='$identifier' AND custom_id=$custom_id";
-
-            $deleteResult = $conn->query($deleteSql);
-
-            if ($deleteResult) {
-                header("Location: customword.php"); 
-            } else {
-                 echo "<script>alert('Error deleting word data');</script>";
+            foreach ($incorrectArray as $custom_id) {
+                $sql = 
+                "UPDATE customwords SET iscorrect = 0 
+                WHERE custom_id = '$custom_id'"
+                AND isCorrect = 1;
+                
+                if ($conn->query($sql) !== TRUE) {
+                    echo "Error updating record: " . $conn->error;
+                }
             }
-
 ?>
