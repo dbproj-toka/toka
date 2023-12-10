@@ -28,61 +28,44 @@
       if ( $jb_login ) {
     ?>       
 
-    <?php
-            # 본인 sql 서버에 맞게 수정하기 #
-            $host = "localhost";
-            $user = "root";
-            $pass = "root";
-            $db = "toka";
-
-            $conn = new mysqli($host, $user, $pass, $db);
-
-            if ($conn->connect_error) {
-                die("연결실패: " . $conn->connect_error);
-            }
-
-            // 사용자 데이터를 가져오는 쿼리 실행
-            $sql = "SELECT u.name, u.email
-                    FROM users AS u
-                    WHERE u.identifier = '$identifier'";
-            
-            $result = $conn->query($sql);         
-            $user = $result->fetch_array(MYSQLI_ASSOC);   
-
-            $username = $user["name"];
-            $email = $user["email"];
-
-            if($email=="" || $email==NULL) {
-                $email = "Update your email";
-            }
-    ?>
-        <!-- 내용 -->   
+        <!-- 내용 -->
         <div class = "wrapper">
             <div class="container">
 
-                    <!-- Name, Email -->
-                    <div class="subWrapper">
-                        <p class="name item user"><?php echo $username ?></p>
-                        <p class="email item user"><?php echo $email ?></p>
+                <!-- Title -->
+                <h3 class="title">Create New Word</h3>
+
+                <!-- 수정 폼 -->
+                <form action="createword.php" method="post">
+
+                    <!-- English & Korean & Part -->             
+                    <div id="labelWrap"><label for="eng" id="label">English</label></div>     
+                    <input type="text" id="eng" name="eng" class="box" placeholder="English Meaning" required><br>
+
+                    <div id="labelWrap"><label for="kor" id="label">Korean</label></div>
+                    <input type="text" id="kor" name="kor" class="box" placeholder="Korean Meaning" autocomplete='off' required><br>
+
+                    <div id="labelWrap"><label for="part" id="label">Part</label></div>
+                    <select id="part" name="part" class="box" required>
+                        <option value="n">Noun</option>
+                        <option value="pro">Pronoun</option>
+                        <option value="v">Verb</option>
+                        <option value="adj">Adjective</option>
+                        <option value="ad">Adverb</option>
+                        <option value="pre">Preposition</option>
+                        <option value="conj">Conjunction</option>
+                        <option value="int">Interjection</option>
+                    </select>
+
+                    <!-- Edit -->
+                    <div class="btnWrapper">
+                        <button type="submit" id="btn">Create</button>
                     </div>
 
-                    <!-- Menu -->
-                    <div class="menuWrapper">
-                        <div class="editInfo item" onclick="editInfo()">
-                            <p>Edit Information</p>
-                        </div>
+                </form>
 
-                        <div class="logOut item" onclick="logOut()">
-                            <p>Log Out</p>
-                        </div>
-
-                        <div class="deleteAccount item" onclick="deleteAccount()">
-                            <p>Delete Account</p>
-                        </div>
-                    </div>
             </div>
         </div>
-
 
     <!-- 그냥 접속했을 때 -->
     <?php
@@ -95,45 +78,61 @@
 
 
 <script>
-    //애니메이션 효과
-    var item = document.querySelectorAll('.item');
-    var cnt = 0; 
 
-    function activeFunc(){
-        item[cnt].classList.add('active');
-        cnt++;    
-        if(cnt >= item.length){
-            clearInterval(addActive);
-        }
-    }
-
-    var addActive = setInterval(activeFunc, 130);
-
-    //정보수정
-    function editInfo() {
-        window.location.href = 'editInfo.php';
-    }
-
-    //로그아웃
-    function logOut() {
-        // 확인 창 표시
-        var confirmLogout = confirm("Do you want to Log Out?");
-
-        // 확인이 클릭되면 로그아웃 실행
-        if (confirmLogout) {
-            //로그아웃 세션
-            window.location.href = '../login/logout.php';
-        } else {
-            // 취소가 클릭되면 아무 동작 없음
-        }
-    }
-
-    //탈퇴
-    function deleteAccount() {
-        window.location.href = 'deleteInfo.php';
-    }
 
 </script>
 
 </body>
 </html>
+
+<?php
+            # 본인 sql 서버에 맞게 수정하기 #
+            $host = "localhost";
+            $user = "root";
+            $pass = "root";
+            $db = "toka";
+
+            $conn = new mysqli($host, $user, $pass, $db);
+
+            if ($conn->connect_error) {
+                die("연결실패: " . $conn->connect_error);
+            }
+
+
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $eng = $_POST["eng"];
+                $kor = $_POST["kor"];
+                $part = $_POST["part"];
+
+                //토익에 존재하는 단어인지 검사
+                $checksql = "SELECT * FROM words WHERE english = '$eng'";
+                $checkresult = $conn->query($checksql);
+    
+                if($checkresult->num_rows < 1) {
+
+                     //커스텀에 존재하는 단어인지 검사
+                    $checksql2 = "SELECT * FROM customwords WHERE c_english = '$eng'";
+                    $checkresult2 = $conn->query($checksql2);
+
+                    if($checkresult2->num_rows < 1) {
+
+                        $sql = "INSERT into customwords (user_id, c_english, c_korean, c_part) values('$identifier', '$eng', '$kor', '$part')";
+                
+                        if (mysqli_query($conn, $sql)) {
+                            echo "<script>alert('Success!'); window.location.href='customword.php';</script>";               
+                        } else {    
+                            echo "<script>alert('Error!');</script>";    
+                        }	
+
+                    } else {
+                        //커스텀에 이미 존재하는 단어
+                        echo "<script>alert('Existed Word');</script>";
+                    }
+	
+                } else {
+                    //토익에 이미 존재하는 단어
+                    echo "<script>alert('Existed Word');</script>";
+                }
+        
+            }
+?>
