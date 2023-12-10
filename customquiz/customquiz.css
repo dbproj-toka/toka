@@ -17,7 +17,7 @@ body {
     align-items: center;
     width: 80%;
     max-width: 600px;
-    height: 550px;
+    height: 570px;
     margin: 30px auto; /* 상하 여백 조정 */
     padding: 0 20px 0 20px;
     border-radius: 10px; /* 둥근 모서리 조정 */
@@ -123,7 +123,7 @@ input[type='text'] {
     height: 50px;
 }
 
-#homeBtn {
+#saveBtn {
     background-color: #ACBAED; /* 다시하기 버튼 색상 조정 */
     margin-top: 0px; /* 상단 간격을 줄임 */
     margin-bottom: 20px; /* 필요하다면 하단 간격을 추가 */
@@ -153,11 +153,34 @@ input[type='text'] {
     cursor: not-allowed; 
 }
 
+#progress{
+    margin-top: 40px;
+    justify-content: space-between;
+}
+
+#proWrap1 {
+    margin-right: auto; 
+}
+
+#proWrap2 {
+    margin-left: auto; 
+}
+
+#progress {
+    color: white;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+#scoreText {
+    font-weight: 600;
+}
+
 #restartButton:hover {
     background-color:  #00DF66;
 }
 
-#homeBtn:hover {
+#saveBtn:hover {
     background-color: #5D7FE8;;
 }
 
@@ -165,6 +188,7 @@ input[type='text'] {
     display: none;
     flex-direction: column;
 }
+
 /* 진행 바 스타일 */
 .progress-bar {
     height: 20px; /* 진행 바 높이 */

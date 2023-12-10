@@ -38,6 +38,7 @@
         // 사용자의 user_id와 일치하는 custom_id 가져오기
         $sql = "SELECT custom_id FROM customwords WHERE user_id = '$identifier'";
         $result = $conn->query($sql);
+        $customCount = $result->num_rows;
 
         if ($result->num_rows > 0) {
             // 사용자의 custom_id 목록이 있는 경우
@@ -59,18 +60,19 @@
                     ];
                 }
             
-                // 잘못된 답안 가져오기 (올바른 답을 제외하고)
-                $wrongAnswersSql = "SELECT c_korean FROM customwords WHERE user_id = '$identifier' AND custom_id != '$custom_id' ORDER BY RAND() LIMIT 3";
+                 // 올바른 답을 제외한 잘못된 답안 가져오기
+                $wrongAnswersSql = "SELECT korean FROM words WHERE NOT english = '" . $question['c_english'] . "' ORDER BY RAND() LIMIT 3";
                 $wrongAnswersResult = $conn->query($wrongAnswersSql);
-            
+
                 while ($wrongAnswerRow = $wrongAnswersResult->fetch_assoc()) {
-                    $question['options'][] = $wrongAnswerRow['c_korean'];
+                    $question['options'][] = $wrongAnswerRow['korean'];
                 }
-            
-                if (!empty($question)) {
-                    $questions[] = $question;
-                }
+                
+                    if (!empty($question)) {
+                        $questions[] = $question;
+                    }
             }
+            
 
             // 모든 질문이 추가된 후에 $questions 배열의 순서를 랜덤으로 섞음
             shuffle($questions);
@@ -104,6 +106,20 @@
             <button id="startButton" onclick="startQuiz()">Start</button>
             <!-- 다음 퀴즈 버튼 -->
             <button id="nextButton" onclick="nextQuestion()" style="display: none;" disabled>Check & Go Next</button>
+
+            <!-- 점수 & 진행상황 -->
+            <div id="progress" style="display: none;">
+                <span id="proWrap1">
+                    <span id="scoreText">Score: </span>
+                    <span id="currentScore">0</span>
+                </span>
+
+                <span id="proWrap2">
+                    <span id="currentNum">1</span>
+                    <span id="dash"> / </span>
+                    <span id="customCount"><?php echo $customCount; ?></span>
+                </span>
+            </div>
         </div>
     </div>
 
@@ -113,7 +129,7 @@
             <h2 id="sub">SCORE</h2>
             <div id="score">0</div>
             <button id="restartButton" onclick="restartQuiz()" style="display: none;">Retry</button>
-            <button id="homeBtn" onclick="goHome()" style="display: none;">Go Home</button>
+            <button id="saveBtn" onclick="saveIncorrect()" style="display: none;">Save Incorrect Quizzes to Review</button>
         </div>
     </div>
 
@@ -133,6 +149,8 @@
 
         // 퀴즈 시작 시 `nextButton` 표시
         document.getElementById('nextButton').style.display = 'block';
+        // 점수, 진행상황 표시
+        document.getElementById('progress').style.display = 'flex';
 
         //퀴즈 보여주기
         displayQuestion();
@@ -140,6 +158,8 @@
 
     //퀴즈 보여주기
     function displayQuestion() {
+        document.getElementById('currentNum').innerText = currentQuestion + 1;
+
         var question = questions[currentQuestion];
         if (question) {
             var options = getShuffledOptions(question);
@@ -196,15 +216,27 @@
         nextButton.disabled = true;
 
         var selectedAnswer = document.querySelector('input[name="answer"]:checked');
+        var selectedQuizOption = document.querySelector('.quiz-option.selected');
+
         if (selectedAnswer) {
             if (selectedAnswer.value === questions[currentQuestion].c_korean) {
                 score += 10;
+                
+                selectedQuizOption.style.backgroundColor = '#00DF66';
             } else {
                 //틀린 번호의 custom_id 추가해주기
                 incorrect_id.push(questions[currentQuestion].custom_id);
+
+                selectedQuizOption.style.backgroundColor = '#FF6969';
             }
-            currentQuestion++;
-            displayQuestion();
+            
+            document.getElementById('currentScore').innerText = score;
+
+            //1초 뒤에 수행하는 코드
+            setTimeout(function() {
+                currentQuestion++;
+                displayQuestion();
+            }, 1000); 
         } else {
             alert('답을 선택해주세요.');
         }
@@ -218,33 +250,32 @@
 
         // "퀴즈 다시하기" 버튼을 표시
         document.getElementById('restartButton').style.display = 'block';
-        document.getElementById('homeBtn').style.display = 'block';
+        document.getElementById('saveBtn').style.display = 'block';
         
-
-        //틀린 custom_id 저장
-        console.log(incorrect_id);
-        var incorrectString = incorrect_id.join(',');
-
-        //window.location.href = 'incorrectcustom.php?id=' + incorrectString;
     }
 
     function restartQuiz() {
         currentQuestion = 0;
         score = 0;
         incorrect_id = [];
+        document.getElementById('currentScore').innerText = score;
 
         document.getElementById('quizWrap').style.display = 'flex';
         document.getElementById('resultWrap').style.display = 'none';
 
         // "퀴즈 다시하기" 버튼을 다시 숨김
         document.getElementById('restartButton').style.display = 'none';
-        document.getElementById('homeBtn').style.display = 'none';
+        document.getElementById('saveBtn').style.display = 'none';
 
         displayQuestion();
     }
 
-    function goHome() {
-        window.location.href = '../main/home.php';
+    function saveIncorrect() {
+        //틀린 custom_id 저장
+        console.log(incorrect_id);
+        var incorrectString = incorrect_id.join(',');
+
+        //window.location.href = 'incorrectcustom.php?id=' + incorrectString;
     }
 
     </script>
