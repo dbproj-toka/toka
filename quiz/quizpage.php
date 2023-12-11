@@ -110,6 +110,7 @@
 
     <script type="text/javascript">
     var questions = <?php echo json_encode($question); ?>;
+    var userId = <?php echo json_encode($identifier); ?>;
     document.getElementById('nextButton').style.display = 'none';
     </script>
 
@@ -151,178 +152,209 @@
         </div>
 
 
-    <script>
-    // JavaScript 코드
-    var currentQuestion = 0;
-    var score = 0;
-    var incorrect_id = [];
+        <script>
+        // JavaScript 코드
+        var currentQuestion = 0;
+        var score = 0;
+        var incorrect_id = [];
 
-    //퀴즈 시작
-    function startQuiz() {
-        document.getElementById('startButton').style.display = 'none';
-        document.getElementById('quizPage').style.display = 'block';
-        document.getElementById('quizPage').style.backgroundColor = 'white';
-        document.getElementById('quizPage').style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+        //퀴즈 시작
+        function startQuiz() {
+            document.getElementById('startButton').style.display = 'none';
+            document.getElementById('quizPage').style.display = 'block';
+            document.getElementById('quizPage').style.backgroundColor = 'white';
+            document.getElementById('quizPage').style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
 
-        // 퀴즈 시작 시 `nextButton` 표시
-        document.getElementById('nextButton').style.display = 'block';
-        // 점수, 진행상황 표시
-        document.getElementById('progress').style.display = 'flex';
+            // 퀴즈 시작 시 `nextButton` 표시
+            document.getElementById('nextButton').style.display = 'block';
+            // 점수, 진행상황 표시
+            document.getElementById('progress').style.display = 'flex';
+
+            //퀴즈 보여주기
+            displayQuestion();
+        }
 
         //퀴즈 보여주기
-        displayQuestion();
-    }
+        function displayQuestion() {
+            document.getElementById('currentNum').innerText = currentQuestion + 1;
 
-    //퀴즈 보여주기
-    function displayQuestion() {
-        document.getElementById('currentNum').innerText = currentQuestion + 1;
-
-        var question = questions[currentQuestion];
-        if (question) {
-            var options = getShuffledOptions(question);
-            var quizContent = "<h2>" + question.english + "</h2>";
-            for (var i = 0; i < options.length; i++) {
-                quizContent +=
-                    "<label class='quiz-option' onclick='handleLabelClick(this)'><input type='radio' name='answer' value='" +
-                    options[i] +
-                    "'>" + options[i] + "</label><br>";
-            }
-            document.getElementById('quizContent').innerHTML = quizContent;
-        } else {
-            showResult();
-        }
-    }
-
-    function getShuffledOptions(question) {
-        // 질문에서 옵션 배열 가져오기
-        var options = question.options;
-
-        // 옵션 배열 섞기
-        shuffleArray(options);
-
-        return options;
-    }
-
-    function shuffleArray(array) {
-        for (var i = array.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
-        }
-    }
-
-    //선택된 옵션에 css 주려고 class 추가하는 거//
-    function handleLabelClick(label) {
-        // 이 함수에서 원하는 동작 수행
-        console.log("Label clicked:", label);
-
-        // 모든 라벨에 대한 선택 제거
-        document.querySelectorAll('.quiz-option').forEach(function(option) {
-            option.classList.remove('selected');
-        });
-
-        // 클릭된 라벨에 대한 선택 표시
-        label.classList.add('selected');
-
-        // 선택된 클래스가 추가되었을 때만 "Next question" 버튼을 활성화
-        var nextButton = document.getElementById('nextButton');
-        nextButton.disabled = !label.classList.contains('selected');
-    }
-
-    function nextQuestion() {
-        var nextButton = document.getElementById('nextButton');
-        nextButton.disabled = true;
-
-        var selectedAnswer = document.querySelector('input[name="answer"]:checked');
-        var selectedQuizOption = document.querySelector('.quiz-option.selected');
-
-        if (selectedAnswer) {
-            if (selectedAnswer.value === questions[currentQuestion].korean) {
-                score += 10;
-
-                selectedQuizOption.style.backgroundColor = '#00DF66';
+            var question = questions[currentQuestion];
+            if (question) {
+                var options = getShuffledOptions(question);
+                var quizContent = "<h2>" + question.english + "</h2>";
+                for (var i = 0; i < options.length; i++) {
+                    quizContent +=
+                        "<label class='quiz-option' onclick='handleLabelClick(this)'><input type='radio' name='answer' value='" +
+                        options[i] +
+                        "'>" + options[i] + "</label><br>";
+                }
+                document.getElementById('quizContent').innerHTML = quizContent;
             } else {
-                //틀린 번호의 custom_id 추가해주기
-                incorrect_id.push(questions[currentQuestion].custom_id);
-
-                selectedQuizOption.style.backgroundColor = '#FF6969';
+                showResult();
             }
+        }
 
+        function getShuffledOptions(question) {
+            // 질문에서 옵션 배열 가져오기
+            var options = question.options;
+
+            // 옵션 배열 섞기
+            shuffleArray(options);
+
+            return options;
+        }
+
+        function shuffleArray(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+
+        //선택된 옵션에 css 주려고 class 추가하는 거//
+        function handleLabelClick(label) {
+            // 이 함수에서 원하는 동작 수행
+            console.log("Label clicked:", label);
+
+            // 모든 라벨에 대한 선택 제거
+            document.querySelectorAll('.quiz-option').forEach(function(option) {
+                option.classList.remove('selected');
+            });
+
+            // 클릭된 라벨에 대한 선택 표시
+            label.classList.add('selected');
+
+            // 선택된 클래스가 추가되었을 때만 "Next question" 버튼을 활성화
+            var nextButton = document.getElementById('nextButton');
+            nextButton.disabled = !label.classList.contains('selected');
+        }
+
+        function nextQuestion() {
+            var nextButton = document.getElementById('nextButton');
+            nextButton.disabled = true;
+
+            var selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            var selectedQuizOption = document.querySelector('.quiz-option.selected');
+
+            if (selectedAnswer) {
+                if (selectedAnswer.value === questions[currentQuestion].korean) {
+                    score += 10;
+
+                    selectedQuizOption.style.backgroundColor = '#00DF66';
+                } else {
+                    //틀린 번호의 custom_id 추가해주기
+                    incorrect_id.push(questions[currentQuestion].custom_id);
+
+                    selectedQuizOption.style.backgroundColor = '#FF6969';
+                }
+
+                document.getElementById('currentScore').innerText = score;
+
+                //1초 뒤에 수행하는 코드
+                setTimeout(function() {
+                    currentQuestion++;
+                    displayQuestion();
+                }, 1000);
+            } else {
+                alert('답을 선택해주세요.');
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quizWrap').style.display = 'none';
+            document.getElementById('resultWrap').style.display = 'flex';
+            document.getElementById('resultPage').style.display = 'flex';
+            document.getElementById('score').innerText = score;
+
+            // "퀴즈 다시하기" 버튼을 표시
+            document.getElementById('restartButton').style.display = 'block';
+            document.getElementById('saveBtn').style.display = 'block';
+
+            //틀린 custom_id 저장
+            console.log(incorrect_id);
+            var incorrectString = incorrect_id.join(',');
+
+            // archives 테이블에 기록 추가
+            recordQuestCompletion(userId, 1, 1);
+
+            //window.location.href = 'incorrectcustom.php?id=' + incorrectString;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            incorrect_id = [];
             document.getElementById('currentScore').innerText = score;
 
-            //1초 뒤에 수행하는 코드
-            setTimeout(function() {
-                currentQuestion++;
-                displayQuestion();
-            }, 1000);
-        } else {
-            alert('답을 선택해주세요.');
+            document.getElementById('quizWrap').style.display = 'flex';
+            document.getElementById('resultWrap').style.display = 'none';
+
+            // "퀴즈 다시하기" 버튼을 다시 숨김
+            document.getElementById('restartButton').style.display = 'none';
+            document.getElementById('saveBtn').style.display = 'none';
+
+            displayQuestion();
         }
-    }
 
-    function showResult() {
-        document.getElementById('quizWrap').style.display = 'none';
-        document.getElementById('resultWrap').style.display = 'flex';
-        document.getElementById('resultPage').style.display = 'flex';
-        document.getElementById('score').innerText = score;
+        function saveIncorrect() {
+            console.log(incorrect_id);
+            var incorrectString = incorrect_id.join(',');
 
-        // "퀴즈 다시하기" 버튼을 표시
-        document.getElementById('restartButton').style.display = 'block';
-        document.getElementById('saveBtn').style.display = 'block';
+            window.location.href = 'saveIncorrect.php?id=' + incorrectString + '&identifier=' +
+                <?php echo $user_id; ?> + '&category_id=' + <?php echo $categoryId; ?> + '&score=' + score;
+            //openhome();
 
-        //틀린 custom_id 저장
-        console.log(incorrect_id);
-        var incorrectString = incorrect_id.join(',');
+            // AJAX를 사용하여 서버에 데이터 전송
 
-        //window.location.href = 'incorrectcustom.php?id=' + incorrectString;
-    }
+            // $.ajax({
+            //     type: "POST",
+            //     url: "saveIncorrect.php", // PHP 파일 경로
+            //     data: { id: incorrectString }, // 전송할 데이터
+            //     success: function(response) {
+            //         console.log(response); // 서버 응답 확인
+            //         // 추가적인 처리나 메시지 표시 등을 할 수 있습니다.
+            //     },  
+            //     error: function(error) {
+            //         console.error("에러 발생: ", error);
+            //     }
+            // });
 
-    function restartQuiz() {
-        currentQuestion = 0;
-        score = 0;
-        incorrect_id = [];
-        document.getElementById('currentScore').innerText = score;
+            // 페이지를 이동하지 않음
+            // window.location.href = 'incorrectcustom.php?id=' + incorrectString;
+        }
 
-        document.getElementById('quizWrap').style.display = 'flex';
-        document.getElementById('resultWrap').style.display = 'none';
+        function openhome() {
+            window.location.href = '../main/home.php';
+        }
 
-        // "퀴즈 다시하기" 버튼을 다시 숨김
-        document.getElementById('restartButton').style.display = 'none';
-        document.getElementById('saveBtn').style.display = 'none';
-
-        displayQuestion();
-    }
-
-    function saveIncorrect() {
-    console.log(incorrect_id);
-    var incorrectString = incorrect_id.join(',');
-        
-    window.location.href = 'saveIncorrect.php?id=' + incorrectString + '&identifier=' + <?php echo $user_id; ?> + '&category_id=' + <?php echo $categoryId; ?> + '&score=' + score;
-    //openhome();
-    
-    // AJAX를 사용하여 서버에 데이터 전송
-
-    // $.ajax({
-    //     type: "POST",
-    //     url: "saveIncorrect.php", // PHP 파일 경로
-    //     data: { id: incorrectString }, // 전송할 데이터
-    //     success: function(response) {
-    //         console.log(response); // 서버 응답 확인
-    //         // 추가적인 처리나 메시지 표시 등을 할 수 있습니다.
-    //     },  
-    //     error: function(error) {
-    //         console.error("에러 발생: ", error);
-    //     }
-    // });
-
-    // 페이지를 이동하지 않음
-    // window.location.href = 'incorrectcustom.php?id=' + incorrectString;
-}
-function openhome() {
-        window.location.href = '../main/home.php';
-    }
-    </script>
+        function recordQuestCompletion(userId, questId, isCompleted) {
+            $.ajax({
+                url: '../quest/questSuccess.php',
+                type: 'POST',
+                data: {
+                    user_id: userId, // 동적으로 설정된 사용자의 ID
+                    quest_id: questId, // 동적으로 설정된 퀘스트의 ID
+                    isCompleted: isCompleted // 동적으로 설정된 완료 상태
+                },
+                success: function(responseText) {
+                    var response = JSON.parse(responseText); // Parse the JSON string
+                    // 서버 응답에 따라 alert를 표시
+                    if (response && response.questTitle) {
+                        alert(response.questTitle + "를 성공하셨습니다!");
+                    } else {
+                        // 서버 응답에 퀘스트 제목이 없는 경우
+                        alert("퀘스트 완료!");
+                    }
+                    console.log("Quest completion response: ", response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Quest completion record 실패: ", error);
+                }
+            });
+        }
+        </script>
 </body>
 
 </html>
