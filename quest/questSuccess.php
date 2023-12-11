@@ -17,7 +17,7 @@
     $questId = isset($_POST['quest_id']) ? $_POST['quest_id'] : null;
 
      // 입력값 검증
-     if (is_null($userId) || is_null($questId)) {
+    if (is_null($userId) || is_null($questId)) {
         echo "필요한 데이터가 누락되었습니다.";
         exit();
     }
@@ -46,7 +46,13 @@
         // 결과가 0인 경우 archives 테이블에 기록
         $insertSql = "INSERT INTO achieves (user_id, quest_id, isCompleted) VALUES ('$userId', '$questId', 1)";
         if ($conn->query($insertSql) === TRUE) {
-            echo "<script>alert('새 기록이 archives 테이블에 추가되었습니다.');</script>";
+            // 새로운 기록이 추가된 경우, 해당 퀘스트의 제목을 가져옵니다.
+            $queryTitle = "SELECT title FROM quest WHERE idquest = '$questId'";
+            $titleResult = $conn->query($queryTitle);
+            if ($titleRow = $titleResult->fetch_assoc()) {
+                $questTitle = $titleRow['title'];
+                echo json_encode(["questTitle" => $questTitle]);
+            }
         } else {
             echo "<script>alert('오류: " . $insertSql . " - " . $conn->error . "');</script>";
         }

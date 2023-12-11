@@ -344,7 +344,15 @@
                 quest_id: questId, // 동적으로 설정된 퀘스트의 ID
                 isCompleted: isCompleted // 동적으로 설정된 완료 상태
             },
-            success: function(response) {
+            success: function(responseText) {
+                var response = JSON.parse(responseText); // Parse the JSON string
+                // 서버 응답에 따라 alert를 표시
+                if (response && response.questTitle) {
+                    alert(response.questTitle + "를 성공하셨습니다!");
+                } else {
+                    // 서버 응답에 퀘스트 제목이 없는 경우
+                    alert("퀘스트 완료!");
+                }
                 console.log("Quest completion response: ", response);
             },
             error: function(xhr, status, error) {
