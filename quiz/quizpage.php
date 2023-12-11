@@ -9,7 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="test.css">
+    <link rel="stylesheet" href="quizpage.css">
     <link rel="stylesheet" href="../navigator.css">
     <title>Quiz</title>
 </head>
@@ -44,9 +44,9 @@
         $question = [];
         $categoryId = $_GET['category']; // Replace with the desired category_id
         $count = 3;
-    
-        // 정답 단어에 대한 쿼리에서 뷰를 사용합니다.
-        $getCorrectWordListQuery = "SELECT * FROM words WHERE categoryId = $categoryId";
+        $user_id = $_GET['user_id'];
+
+        $getCorrectWordListQuery = "SELECT * FROM words WHERE categoryId = $categoryId" ;
         $getCategoryName = "SELECT category_name as name FROM category WHERE identifier = $categoryId";
         
         $categoryName = $conn->query($getCategoryName)->fetch_assoc();
@@ -298,7 +298,8 @@
     console.log(incorrect_id);
     var incorrectString = incorrect_id.join(',');
         
-    window.location.href = 'saveIncorrect.php?id=' + incorrectString;
+    window.location.href = 'saveIncorrect.php?id=' + incorrectString + '&identifier=' + <?php echo $user_id; ?> + '&category_id=' + <?php echo $categoryId; ?> + '&score=' + score;
+    
     // AJAX를 사용하여 서버에 데이터 전송
 
     // $.ajax({

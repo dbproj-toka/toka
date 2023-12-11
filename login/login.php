@@ -61,9 +61,9 @@
 <?php
     # 본인 sql 서버에 맞게 수정하기 #
 	$host = "localhost";
-	$user = "root";
-	$pass = "root";
-	$db = "toka";
+    $user = "root";
+    $pass = "qkrwnsdyd0416";
+    $db = "toka";
 
 	$conn = new mysqli($host, $user, $pass, $db);
 
@@ -88,7 +88,7 @@
                 session_start();
                 $_SESSION['identifier'] = $user['identifier'];
                 $_SESSION['name'] = $user['name'];
-                header("Location: ../main/home.php"); 
+                header("Location: ../main/home.php?identifier=" . $user['identifier']); 
             } else {
                 echo "<script>alert('Wrong Password');</script>";
             }

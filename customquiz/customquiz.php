@@ -25,10 +25,10 @@
     ?>
 
     <?php
-        $host = "localhost";
-        $user = "root";
-        $pass = "root";
-        $db = "toka";
+  $host = "localhost";
+  $user = "root";
+  $pass = "qkrwnsdyd0416";
+  $db = "toka";
 
         $conn = new mysqli($host, $user, $pass, $db);
 

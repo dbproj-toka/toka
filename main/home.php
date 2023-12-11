@@ -66,7 +66,7 @@
                     <p>WordList</p>
                 </div>
 
-                <div class="quiz item" onclick="">
+                <div class="quiz item" onclick="openQuizcategory()">
                     <div class="icon">
                         <i class="fa-solid fa-pencil fa-3x"></i>
                     </div>
@@ -80,7 +80,7 @@
                     <p>Review</p>
                 </div>
 
-            </div>
+                </div>
 
             <br><br><br>
             <!-- Menu -->
@@ -109,7 +109,7 @@
                     <p>Custom Review</p>
                 </div>
             </div>
-            <div class="spacer"></div>
+<div class="spacer"></div>
         </div>
     </div>
 
@@ -125,6 +125,10 @@
 
     <!-- 애니메이션 효과 -->
     <script>
+        <?php
+        // PHP에서 identifier 값을 JavaScript 변수에 할당
+        echo "var userIdentifer = " . json_encode($_SESSION['identifier']) . ";";
+    ?>
     var item = document.querySelectorAll('.item');
     var cnt = 0;
 
@@ -154,10 +158,14 @@
 
     }
 
-    //Review custom Word Quiz
-    function openReviewCustomQuiz() {
+      //Review custom Word Quiz
+      function openReviewCustomQuiz() {
         window.location.href = '../customquiz/reviewcustomquiz.php';
 
+    }
+    //custom Word Quiz
+    function openQuizcategory() {
+        window.location.href = '../quiz/quizcategory.php?identifier=' + userIdentifer;
     }
     </script>
 

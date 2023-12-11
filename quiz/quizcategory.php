@@ -17,7 +17,6 @@
 <body>
     <?php include '../navigator.php'; ?>
 
-
     <?php
         # 본인 sql 서버에 맞게 수정하기 #
         $host = "localhost";
@@ -31,7 +30,8 @@
 	if ($conn->connect_error) {
 		die("연결실패: " . $conn->connect_error);
 	}
-    
+
+    $user_id = $_GET['identifier']
 ?>
     <div class="Wrapper">
         <!-- Menu -->
@@ -54,7 +54,7 @@
             echo '<ul class="category-list">'; // 클래스 이름을 'category-list'로 지정
             while($row = $result->fetch_assoc()) {
                 // 카테고리 번호와 이름을 분리하여 출력
-                echo '<a href="../quiz/quizpage.php?category=' . $row["identifier"] . '" class="category-link">';
+                echo '<a href="../quiz/quizpage.php?category='.$row["identifier"] . '&user_id=' . $user_id . '" class="category-link">';
                 echo '<li>';
                 echo '<span class="category-number">' . sprintf("%02d", $row["identifier"]) . '</span>';
                 echo '<span class="category-name">' . $row["category_name"] . '</span>';
