@@ -2,7 +2,7 @@
 // 데이터베이스 연결 설정
 $host = "localhost";
 $user = "root";
-$pass = "qkrwnsdyd0416";
+$pass = "root";
 $db = "toka";
 
 $conn = new mysqli($host, $user, $pass, $db);
@@ -59,7 +59,8 @@ if ($conn->query($insertQuery2) === TRUE) {
         $insertQuery1 = "INSERT INTO incorrectwords (recordId,wordId) VALUES ('$lastRecordId','$word_id')";
         // 쿼리 실행 결과 확인 및 오류 처리
         if ($conn->query($insertQuery1) === TRUE) {
-            echo "틀린 답이 성공적으로 저장되었습니다.";
+            header("Location: ../main/home.php"); 
+            //echo "틀린 답이 성공적으로 저장되었습니다.";
         } else {
             echo "에러: " . $insertQuery1 . "<br>" . $conn->error;
         }

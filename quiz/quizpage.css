@@ -1,3 +1,16 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #e9ecef; /* 조정된 배경색 */
+    line-height: 1.6;
+}
+
+.quizWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+}
+
 .text-left {
     text-align: left;
 }

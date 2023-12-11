@@ -299,7 +299,7 @@
     var incorrectString = incorrect_id.join(',');
         
     window.location.href = 'saveIncorrect.php?id=' + incorrectString + '&identifier=' + <?php echo $user_id; ?> + '&category_id=' + <?php echo $categoryId; ?> + '&score=' + score;
-    openhome();
+    //openhome();
     
     // AJAX를 사용하여 서버에 데이터 전송
 
