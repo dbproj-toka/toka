@@ -26,7 +26,7 @@
     <?php
         $host = "localhost";
         $user = "root";
-        $pass = "qkrwnsdyd0416";
+        $pass = "root";
         $db = "toka";
 
         $conn = new mysqli($host, $user, $pass, $db);
@@ -299,6 +299,7 @@
     var incorrectString = incorrect_id.join(',');
         
     window.location.href = 'saveIncorrect.php?id=' + incorrectString + '&identifier=' + <?php echo $user_id; ?> + '&category_id=' + <?php echo $categoryId; ?> + '&score=' + score;
+    //openhome();
     
     // AJAX를 사용하여 서버에 데이터 전송
 
@@ -318,6 +319,9 @@
     // 페이지를 이동하지 않음
     // window.location.href = 'incorrectcustom.php?id=' + incorrectString;
 }
+function openhome() {
+        window.location.href = '../main/home.php';
+    }
     </script>
 </body>
 

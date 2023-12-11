@@ -9,7 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="quizcategory.css">
+    <link rel="stylesheet" href="reviewcategory.css">
     <link rel="stylesheet" href="../navigator.css">
     <title>quizcategoryPage</title>
 </head>
@@ -31,9 +31,9 @@
 		die("연결실패: " . $conn->connect_error);
 	}
 
-    $user_id = $_GET['identifier']
-?>
     
+?>
+
     <div class="wrapper">
         <div class="container">
 
@@ -77,7 +77,7 @@
         </div>
     </div>
 
-    <script>
+<script>
 
 //애니메이션 효과
 showListItems();
@@ -95,11 +95,10 @@ function showListItems() {
 //카테고리단어목록으로
 function goWord(id, userId) {
     //window.location.href = 'editword.php';
-    window.location.href = '../quiz/quizpage.php?category=' + id + '&user_id=' + userId;
+    window.location.href = '../quiz/reviewquiz.php?category=' + id + '&user_id=' + userId;
 }
 
 </script>
-
 
 </body>
 

@@ -73,7 +73,7 @@
                     <p>Quiz</p>
                 </div>
 
-                <div class="review item" onclick="">
+                <div class="review item" onclick="openreviewcategory()">
                     <div class="icon">
                         <i class="fa-solid fa-table fa-3x"></i>
                     </div>
@@ -166,6 +166,11 @@
     //custom Word Quiz
     function openQuizcategory() {
         window.location.href = '../quiz/quizcategory.php?identifier=' + userIdentifer;
+    }
+
+    //review category
+    function openreviewcategory() {
+        window.location.href = '../quiz/reviewcategory.php';
     }
     </script>
 

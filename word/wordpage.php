@@ -41,11 +41,6 @@
             $categoryName = "Unknown Category"; // 카테고리가 없을 경우
         }
 
-        // $sql = "SELECT w.word_id, w.english, w.korean, w.part, w.categoryId, c.category_name 
-        //         FROM words AS w
-        //         INNER JOIN category AS c ON w.categoryId = c.identifier
-        //         WHERE c.identifier = '$categoryIdentifier'";
-
         $sql = "SELECT w.word_id, w.english, w.korean, w.part, w.categoryId, c.category_name
                 FROM words w, category C
                 WHERE c.identifier = '$categoryIdentifier'
