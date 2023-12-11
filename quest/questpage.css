@@ -20,6 +20,7 @@ body {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
+    width: 40%; /* 너비를 40%로 설정 */
     margin-bottom: 20px; /* 아이템 간의 공백을 추가 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%; /* 부모인 #quest-container의 너비를 꽉 채우게 설정 */
@@ -35,6 +36,7 @@ body {
     border: 1px solid #2c2c2c; /* 어두운 테두리 색상 */
     border-radius: 8px;
     padding: 20px;
+    width: 40%; /* 너비를 40%로 설정 */
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* 더 강조된 그림자 */
     width: 100%;
