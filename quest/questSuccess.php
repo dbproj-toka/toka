@@ -25,7 +25,7 @@
     // quest, user, archive 테이블 조인 쿼리
     $sql = "SELECT u.identifier, u.name, q.idquest, q.title, a.isCompleted 
             FROM users u
-            JOIN achives a ON u.identifier = a.user_id
+            JOIN achieves a ON u.identifier = a.user_id
             JOIN quest q ON q.idquest = a.quest_id
             WHERE u.identifier = '$userId' AND q.idquest = '$questId'";
 
@@ -44,7 +44,7 @@
         exit();
 }
         // 결과가 0인 경우 archives 테이블에 기록
-        $insertSql = "INSERT INTO achives (user_id, quest_id, isCompleted) VALUES ('$userId', '$questId', 1)";
+        $insertSql = "INSERT INTO achieves (user_id, quest_id, isCompleted) VALUES ('$userId', '$questId', 1)";
         if ($conn->query($insertSql) === TRUE) {
             echo "<script>alert('새 기록이 archives 테이블에 추가되었습니다.');</script>";
         } else {

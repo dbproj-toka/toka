@@ -14,11 +14,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link rel="stylesheet" href="questpage.css">
 <link rel="stylesheet" href="../navigator.css">
-<title>Word List</title>
+<title>Quest page</title>
 
 <body>
     <?php include '../navigator.php'; ?>
     <?php
+
         # 본인 sql 서버에 맞게 수정하기 #
         $host = "localhost";
         $user = "root";
@@ -33,10 +34,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
         ?>
 
     <div id="quest-container">
-        <?php $sql = "SELECT q.idquest, q.title, q.content, a.isCompleted
-        FROM quest q
-        LEFT JOIN achives a ON q.idquest = a.quest_id
-        ORDER BY a.isCompleted DESC, q.title ASC";
+        <?php 
+         $sql = "SELECT q.idquest, q.title, q.content, a.isCompleted
+         FROM quest q
+         LEFT JOIN achieves a ON q.idquest = a.quest_id AND a.user_id = '$identifier'
+         ORDER BY a.isCompleted DESC, q.title ASC";
 
         $result = $conn->query($sql);
 
