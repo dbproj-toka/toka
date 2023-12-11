@@ -9,25 +9,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="customquiz.css">
+    <link rel="stylesheet" href="test.css">
     <link rel="stylesheet" href="../navigator.css">
-    <title>Custom Quiz</title>
+    <title>Quiz</title>
 </head>
 
 <body>
     <!-- 네비게이션 바 -->
-    <?php include '../navigator.php'; ?>
+    <?php include 'C:\xampp\htdocs\toka\navigator.php'; ?>
 
     <!-- 정상적으로 로그인하여 접속했을 때 -->
     <?php
-      if ( $jb_login ) {
-
+      if ($jb_login ) {
     ?>
 
     <?php
         $host = "localhost";
         $user = "root";
-        $pass = "root";
+        $pass = "qkrwnsdyd0416";
         $db = "toka";
 
         $conn = new mysqli($host, $user, $pass, $db);
@@ -35,82 +34,70 @@
         if ($conn->connect_error) {
             die("연결실패: " . $conn->connect_error);
         }
+        
+        // $categoryId = $_GET['category']; // Replace with the desired category_id
 
-        // 사용자의 user_id와 일치하는 custom_id 가져오기
-        $sql = "SELECT custom_id FROM customwords WHERE user_id = '$identifier'";
-        $result = $conn->query($sql);
-        $customCount = $result->num_rows;
-
-
+        // 최종 결과 저장할 question 배열
+        // 내부에는 Map
+        // 필요한 Key : c_english, c_korean, options(Array : 정답 한글 1 + 오답 한글 3)
+        $questions = [];
+        $question = [];
+        $categoryId = $_GET['category']; // Replace with the desired category_id
+        $count = 3;
+    
+        // 정답 단어에 대한 쿼리에서 뷰를 사용합니다.
+        $getCorrectWordListQuery = "SELECT * FROM words WHERE categoryId = $categoryId";
+        $getCategoryName = "SELECT category_name as name FROM category WHERE identifier = $categoryId";
+        
+        $categoryName = $conn->query($getCategoryName)->fetch_assoc();
+        $result = $conn->query($getCorrectWordListQuery);
+        
+        // 결과를 담을 배열 초기화
+        $correctWordList = array();
+        // 쿼리 결과가 있는지 확인
         if ($result->num_rows > 0) {
-            // 사용자의 custom_id 목록이 있는 경우
-            $questions = []; // 퀴즈 데이터를 저장할 배열 초기화
+            // 결과를 배열로 변환
             while ($row = $result->fetch_assoc()) {
-                $custom_id = $row['custom_id'];
-
-                $sqlQuiz = "SELECT 
-                    cw.custom_id, cw.c_korean, cw.c_english,
-                    (
-                        SELECT w.korean
-                        FROM words AS w
-                        WHERE NOT w.english = cw.c_english
-                        ORDER BY RAND()
-                        LIMIT 1
-                    ) AS wrong_answer1,
-                    (
-                        SELECT w.korean
-                        FROM words AS w
-                        WHERE NOT w.english = cw.c_english
-                        ORDER BY RAND()
-                        LIMIT 1
-                    ) AS wrong_answer2,
-                    (
-                        SELECT w.korean
-                        FROM words AS w
-                        WHERE NOT w.english = cw.c_english
-                        ORDER BY RAND()
-                        LIMIT 1
-                    ) AS wrong_answer3
-                FROM customwords AS cw
-                WHERE cw.custom_id=$custom_id";
-
-                $resultQuiz = $conn->query($sqlQuiz);
-
-                while ($row = $resultQuiz->fetch_assoc()) {
-                    $question = [
-                        'custom_id' => $row['custom_id'],
-                        'c_english' => $row['c_english'],
-                        'c_korean' => $row['c_korean'],
-                        'options' => [
-                            $row['c_korean'],
-                            $row['wrong_answer1'],
-                            $row['wrong_answer2'],
-                            $row['wrong_answer3']
-                        ]
-                    ];
-            
-                    // 옵션을 랜덤하게 섞음
-                    shuffle($question['options']);
-                }
-
-                if (!empty($question)) {
-                    $questions[] = $question;
-                }
+                $correctWordList[] = $row;
             }
-            
-
-            // 모든 질문이 추가된 후에 $questions 배열의 순서를 랜덤으로 섞음
-            shuffle($questions);
-
-            // 데이터베이스 연결 종료
-            $conn->close();
-            
+            // 배열 셔플
+            shuffle($correctWordList);
+        } else {
+            echo "0 results";
         }
+
+        $customCount = count($correctWordList);
+        
+        foreach ($correctWordList as &$word) {
+            // Get the 'part' value of the current element
+            $currentPart = $word['part'];
+        
+            // SQL query to retrieve count random data different from the current element
+            $randomDataQuery =
+                "SELECT * FROM vw_random_data
+                WHERE part = '$currentPart'
+                LIMIT $count";
+        
+            // execute query
+            $randomDataResult = $conn->query($randomDataQuery);
+        
+            $temp = [];
+            // question의 option 필드에 들어갈 list
+            $temp = [
+                'c_english' => $word['english'], 
+                'c_korean' => $word['korean'],
+                'options' => [$word['korean']]
+            ];
+            while ($randomData = $randomDataResult->fetch_assoc()) {
+                $temp['options'][] = $randomData['korean'];
+            }
+
+            $question[] = $temp;
         ?>
 
     <!-- 그냥 접속했을 때 -->
     <?php
-      } else {
+      }} else {
     ?>
     <h1>Invalid Access</h1>
     <?php
@@ -118,9 +105,7 @@
     ?>
 
     <script type="text/javascript">
-    var questions = <?php echo json_encode($questions); ?>;
-    var customCount = <?php echo $customCount; ?>;
-    var userId = <?php echo json_encode($identifier); ?>;
+    var questions = <?php echo json_encode($question); ?>;
     document.getElementById('nextButton').style.display = 'none';
     </script>
 
@@ -156,11 +141,10 @@
         <div id="resultPage" class="quiz-container">
             <h2 id="sub">SCORE</h2>
             <div id="score">0</div>
-
-            <button id="restartButton" onclick="restartQuiz()">Retry</button>
-
+            <button id="restartButton" onclick="restartQuiz()" style="display: none;">Retry</button>
+            <button id="saveBtn" onclick="saveIncorrect()" style="display: none;">Save Incorrect Quizzes to
+                Review</button>
         </div>
-    </div>
 
 
     <script>
@@ -242,17 +226,6 @@
         nextButton.disabled = !label.classList.contains('selected');
     }
 
-    function updateIsCorrect(custom_id, isCorrect) {
-        // PHP 스크립트를 호출하여 isCorrect 값을 업데이트
-        var scriptUrl = isCorrect ? 'correctcustom.php' : 'incorrectcustom.php';
-        $.post(scriptUrl, {
-            custom_id: custom_id,
-            isCorrect: isCorrect ? 1 : 0 // isCorrect 값을 업데이트
-        }, function(data) {
-            console.log(data);
-        });
-    }
-
     function nextQuestion() {
         var nextButton = document.getElementById('nextButton');
         nextButton.disabled = true;
@@ -261,30 +234,28 @@
         var selectedQuizOption = document.querySelector('.quiz-option.selected');
 
         if (selectedAnswer) {
-            var custom_id_to_update = questions[currentQuestion].custom_id;
             if (selectedAnswer.value === questions[currentQuestion].c_korean) {
                 score += 10;
+
                 selectedQuizOption.style.backgroundColor = '#00DF66';
-                updateIsCorrect(custom_id_to_update, true); // 맞았을 때 isCorrect를 1로 설정
             } else {
-                if (!incorrect_id.includes(custom_id_to_update)) {
-                    incorrect_id.push(custom_id_to_update);
-                }
+                //틀린 번호의 custom_id 추가해주기
+                incorrect_id.push(questions[currentQuestion].custom_id);
+
                 selectedQuizOption.style.backgroundColor = '#FF6969';
-                updateIsCorrect(custom_id_to_update, false); // 틀렸을 때 isCorrect를 0으로 설정
             }
 
             document.getElementById('currentScore').innerText = score;
 
+            //1초 뒤에 수행하는 코드
             setTimeout(function() {
                 currentQuestion++;
                 displayQuestion();
             }, 1000);
         } else {
-            alert('Please select an answer.');
+            alert('답을 선택해주세요.');
         }
     }
-
 
     function showResult() {
         document.getElementById('quizWrap').style.display = 'none';
@@ -292,20 +263,16 @@
         document.getElementById('resultPage').style.display = 'flex';
         document.getElementById('score').innerText = score;
 
-        // "Retry" 버튼을 표시
+        // "퀴즈 다시하기" 버튼을 표시
         document.getElementById('restartButton').style.display = 'block';
+        document.getElementById('homeBtn').style.display = 'block';
+
 
         //틀린 custom_id 저장
-        console.log(incorrect_id);
-        var incorrectString = incorrect_id.join(',');
+        // console.log(incorrect_id);
+        // var incorrectString = incorrect_id.join(',');
 
-        // archives 테이블에 기록 추가
-        recordQuestCompletion(userId, 2, 1);
-
-        if (score === 100) {
-            recordQuestCompletion(userId, 3, 1); // 여기서 user_id, quest_id, isCompleted를 전달
-        }
-
+        //window.location.href = 'incorrectcustom.php?id=' + incorrectString;
     }
 
     function restartQuiz() {
@@ -325,29 +292,11 @@
     }
 
     function saveIncorrect() {
-        //틀린 custom_id 저장
+        //틀린 id 저장
         console.log(incorrect_id);
         var incorrectString = incorrect_id.join(',');
 
         window.location.href = 'incorrectcustom.php?id=' + incorrectString;
-    }
-
-    function recordQuestCompletion(userId, questId, isCompleted) {
-        $.ajax({
-            url: '../quest/questSuccess.php',
-            type: 'POST',
-            data: {
-                user_id: userId, // 동적으로 설정된 사용자의 ID
-                quest_id: questId, // 동적으로 설정된 퀘스트의 ID
-                isCompleted: isCompleted // 동적으로 설정된 완료 상태
-            },
-            success: function(response) {
-                console.log("Quest completion response: ", response);
-            },
-            error: function(xhr, status, error) {
-                console.error("Quest completion record 실패: ", error);
-            }
-        });
     }
     </script>
 </body>
