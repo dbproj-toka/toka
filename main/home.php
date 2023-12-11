@@ -54,7 +54,7 @@
         <div class="container">
             <!-- Menu -->
             <div class="subWrapper">
-                <p class="subTitle item">Menu</p>
+                    <p class="subTitle">Menu</p>
             </div>
 
             <!-- WordList & Quiz & Review & Ranking -->
@@ -66,7 +66,7 @@
                     <p>WordList</p>
                 </div>
 
-                <div class="quiz item" onclick="">
+                <div class="quiz item" onclick="openQuizcategory()">
                     <div class="icon">
                         <i class="fa-solid fa-pencil fa-3x"></i>
                     </div>
@@ -80,22 +80,39 @@
                     <p>Review</p>
                 </div>
 
-                <div class="ranking item" onclick="openCustom()">
-                    <div class="icon">
-                        <i class="fa-solid fa-signal fa-3x"></i>
-                    </div>
-                    <p>Custom Word(임시)</p>
                 </div>
 
-                <div class="ranking item" onclick="openCustomQuiz()">
+            <br><br>
+            <!-- Menu -->
+            <div class="subWrapper">
+                <p class="subTitle2">Custom Menu</p>
+            </div>
+            <div class="menuWrapper2">
+                <div class="CwordList item" onclick="openCustom()">
                     <div class="icon">
-                        <i class="fa-solid fa-signal fa-3x"></i>
+                        <i class="fa-regular fa-file-lines fa-3x"></i>
                     </div>
-                    <p>Custom Word Quiz(임시)</p>
+                    <p>Custom WordList</p>
+                </div>
+
+                <div class="Cquiz item" onclick="openCustomQuiz()">
+                    <div class="icon">
+                        <i class="fa-solid fa-pencil fa-3x"></i>
+                    </div>
+                    <p>Custom Quiz</p>
+                </div>
+
+                <div class="Creview item" onclick="openReviewCustomQuiz()">
+                    <div class="icon">
+                        <i class="fa-solid fa-table fa-3x"></i>
+                    </div>
+                    <p>Custom Review</p>
                 </div>
             </div>
+<div class="spacer"></div>
         </div>
     </div>
+
 
     <!-- 그냥 접속했을 때 -->
     <?php
@@ -108,6 +125,10 @@
 
     <!-- 애니메이션 효과 -->
     <script>
+        <?php
+        // PHP에서 identifier 값을 JavaScript 변수에 할당
+        echo "var userIdentifer = " . json_encode($_SESSION['identifier']) . ";";
+    ?>
     var item = document.querySelectorAll('.item');
     var cnt = 0;
 
@@ -135,6 +156,16 @@
     function openCustomQuiz() {
         window.location.href = '../customquiz/customquiz.php';
 
+    }
+
+      //Review custom Word Quiz
+      function openReviewCustomQuiz() {
+        window.location.href = '../customquiz/reviewcustomquiz.php';
+
+    }
+    //custom Word Quiz
+    function openQuizcategory() {
+        window.location.href = '../quiz/quizcategory.php?identifier=' + userIdentifer;
     }
     </script>
 

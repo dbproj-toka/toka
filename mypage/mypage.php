@@ -16,6 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/140fb8c1aa.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="mypage.css">
+    <link rel="stylesheet" href="../navigator.css">
     <title>My Page</title>
 </head>
 <body>
@@ -56,6 +57,7 @@
                 $email = "Update your email";
             }
     ?>
+    <div class = "centerWrap">
         <!-- 내용 -->   
         <div class = "wrapper">
             <div class="container">
@@ -82,7 +84,7 @@
                     </div>
             </div>
         </div>
-
+    </div>
 
     <!-- 그냥 접속했을 때 -->
     <?php

@@ -72,7 +72,7 @@
 
                     <!-- English & Korean & Part -->             
                     <div id="labelWrap"><label for="eng" id="label">English</label></div>     
-                    <input type="text" id="eng" name="eng" class="box" placeholder="English Meaning" value="<?php echo $eng ?>" required><br>
+                    <input type="text" id="eng" name="eng" class="box" placeholder="English Meaning" autocomplete='off' value="<?php echo $eng ?>" required><br>
 
                     <div id="labelWrap"><label for="kor" id="label">Korean</label></div>
                     <input type="text" id="kor" name="kor" class="box" placeholder="Korean Meaning" autocomplete='off' value="<?php echo $kor ?>" required><br>

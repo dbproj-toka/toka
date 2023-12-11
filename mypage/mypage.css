@@ -15,7 +15,7 @@ body {
     width: 100%;
     margin: 0 auto;
     text-align: center;
-    background: white;
+    background: linear-gradient(to left, #7F96E8, #A6DCBF);
     font-family: sans-serif;
 }
 
@@ -120,25 +120,37 @@ li>a:hover{
 
 
 
+.centerWrap {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+}
 
 /* 내용 */
 .wrapper {
-    width: 100%;
-    height: 85%;
+    background-color: white;
+    width: 650px;
+    height: 550px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 5px;
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
 .container {
     width: 100%;
-    height: 400px;
+    height: 500px;
 }
 
 /* Menu */
 .subWrapper {
     text-align: center;
     align-items: center;
-    margin-bottom: 15px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .subTitle {
@@ -153,6 +165,7 @@ li>a:hover{
     display: flex;
     justify-content: center;
     flex-direction: column;
+    margin-top: 80px;
 }
 
 .menuWrapper>div{
@@ -163,8 +176,8 @@ li>a:hover{
     border-radius: 3px;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    margin-bottom: 30px;
+    margin-top: 30px;
 }
 
 .editInfo {
@@ -205,4 +218,16 @@ li>a:hover{
 .item:not(.user):hover {
     transform: scale(1.1);
     cursor: pointer;
+}
+
+.name {
+    font-size: 30px;
+    color: grey;
+    font-weight: 900;
+}
+
+.email {
+    font-size: 20px;
+    color: darkgrey;
+    font-weight: 500;
 }

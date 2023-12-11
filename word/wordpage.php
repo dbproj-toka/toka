@@ -41,49 +41,82 @@
             $categoryName = "Unknown Category"; // 카테고리가 없을 경우
         }
 
-        $sql = "SELECT w.word_id, w.english, w.korean, w.part, w.categoryId, c.category_name 
-                FROM words AS w
-                INNER JOIN category AS c ON w.categoryId = c.identifier
-                WHERE c.identifier = '$categoryIdentifier'";
+        // $sql = "SELECT w.word_id, w.english, w.korean, w.part, w.categoryId, c.category_name 
+        //         FROM words AS w
+        //         INNER JOIN category AS c ON w.categoryId = c.identifier
+        //         WHERE c.identifier = '$categoryIdentifier'";
+
+        $sql = "SELECT w.word_id, w.english, w.korean, w.part, w.categoryId, c.category_name
+                FROM words w, category C
+                WHERE c.identifier = '$categoryIdentifier'
+                AND c.identifier = w.categoryId";
         
         $result = $conn->query($sql);
         
     ?>
 
+    <!-- 내용 -->
+    <div class = "wrapper">
+        <div class="container">
 
-    <div class="subtitle"><?php echo $categoryName; ?></div>
+            <div class="titleWrap">
+                <h3 class="title"><?php echo $categoryName; ?></h3>
+                <div class="btnWrapper">
+                        <button onclick="history.back()" id="btn" class="btn btn-default">Go to Category</button>
+                </div>
+            </div>
 
-    <div class="scrollable">
-        <div class="back-button-container">
-            <button onclick="history.back()" class="btn btn-default">Go to Category</button>
+            <!-- word List -->
+            <div class="scrollable">
+                <div clas="wordWrapper">
+                    <ul class="list">
+                        <?php
+                                if ($result->num_rows > 0) {
+                                    // 결과 데이터를 출력
+                                    while($row = $result->fetch_assoc()) {
+                                        echo '<li class="list-group-item">';
+                                            echo '<div class="word">';
+                                                echo '<div class="left-side">';
+                                                    echo '<span class="number">' . $row["word_id"] . '</span>'; // Assuming 'word_id' is like a category number
+                                                    echo '<span class="english-word">' . $row["english"] . '</span>';
+                                                echo '</div>';
+                                                echo '<div class="word-translations">';
+                                                    echo '<span class="part-of-speech">' . $row["part"] . '</span>';
+                                                    echo '<span class="korean-word">' . $row["korean"] . '</span>';
+                                                echo '</div>';
+                                            echo '</div>';
+                                        echo '</li>';
+                                    }
+                                } else {
+                                    echo "<li>0 results</li>";
+                                }
+                            ?>
+                    </ul>
+                </div>
+            </div>
+
         </div>
-        <!-- 카테고리 리스트 출력 -->
-        <ul class="category-list">
-            <?php
-                    if ($result->num_rows > 0) {
-                        // 결과 데이터를 출력
-                        while($row = $result->fetch_assoc()) {
-                            echo '<li class="list-group-item">';
-                            echo '<div class="word">';
-                            echo '<span class="category-number">' . $row["word_id"] . '</span>'; // Assuming 'word_id' is like a category number
-                            echo '<span class="english-word">' . $row["english"] . '</span>';
-                            echo '<div class="word-translations">';
-                            echo '<span class="part-of-speech">' . $row["part"] . '</span>';
-                            echo '<span class="korean-word">' . $row["korean"] . '</span>';
-                            echo '</div>';
-                            echo '</div>';
-                            echo '</li>';
-                        }
-                    } else {
-                        echo "<li>0 results</li>";
-                    }
-                ?>
-        </ul>
     </div>
+
     <?php
         // 데이터베이스 연결 종료
         $conn->close();
     ?>
+
+    <script>
+        //애니메이션 효과
+        showListItems();
+
+        function showListItems() {
+            var listItems = document.querySelectorAll('.list-group-item');
+
+            listItems.forEach(function (item, index) {
+                setTimeout(function () {
+                    item.classList.add('show');
+                }, index * 100);
+            });
+        }
+    </script>
 </body>
 
 </html>
