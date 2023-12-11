@@ -9,18 +9,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="customquiz.css">
+    <link rel="stylesheet" href="test.css">
     <link rel="stylesheet" href="../navigator.css">
-    <title>Custom Quiz</title>
+    <title>Quiz</title>
 </head>
 
 <body>
     <!-- 네비게이션 바 -->
-    <?php include '../navigator.php'; ?>
+    <?php include 'C:\xampp\htdocs\toka\navigator.php'; ?>
 
     <!-- 정상적으로 로그인하여 접속했을 때 -->
     <?php
-      if ( $jb_login ) {
+      if ($jb_login ) {
     ?>
 
     <?php
@@ -34,62 +34,70 @@
         if ($conn->connect_error) {
             die("연결실패: " . $conn->connect_error);
         }
+        
+        // $categoryId = $_GET['category']; // Replace with the desired category_id
 
-        // 사용자의 user_id와 일치하는 custom_id 가져오기
-        $sql = "SELECT custom_id FROM customwords WHERE user_id = '$identifier'";
-        $result = $conn->query($sql);
-        $customCount = $result->num_rows;
-
+        // 최종 결과 저장할 question 배열
+        // 내부에는 Map
+        // 필요한 Key : c_english, c_korean, options(Array : 정답 한글 1 + 오답 한글 3)
+        $questions = [];
+        $question = [];
+        $categoryId = $_GET['category']; // Replace with the desired category_id
+        $count = 3;
+    
+        // 정답 단어에 대한 쿼리에서 뷰를 사용합니다.
+        $getCorrectWordListQuery = "SELECT * FROM words WHERE categoryId = $categoryId";
+        $getCategoryName = "SELECT category_name as name FROM category WHERE identifier = $categoryId";
+        
+        $categoryName = $conn->query($getCategoryName)->fetch_assoc();
+        $result = $conn->query($getCorrectWordListQuery);
+        
+        // 결과를 담을 배열 초기화
+        $correctWordList = array();
+        // 쿼리 결과가 있는지 확인
         if ($result->num_rows > 0) {
-            // 사용자의 custom_id 목록이 있는 경우
-            $questions = []; // 퀴즈 데이터를 저장할 배열 초기화
+            // 결과를 배열로 변환
             while ($row = $result->fetch_assoc()) {
-                $custom_id = $row['custom_id'];
-            
-                // 올바른 답 가져오기
-                $customWordsSql = "SELECT custom_id, c_korean, c_english FROM customwords WHERE user_id = '$identifier' AND custom_id = '$custom_id' ORDER BY RAND() LIMIT 1";
-                $customWordsResult = $conn->query($customWordsSql);
-                $question = [];
-            
-                if ($customWordRow = $customWordsResult->fetch_assoc()) {
-                    $question = [
-                        'custom_id' => $customWordRow['custom_id'], 
-                        'c_english' => $customWordRow['c_english'], 
-                        'c_korean' => $customWordRow['c_korean'],
-                        'options' => [$customWordRow['c_korean']]
-                    ];
-                }
-               
-                 // 올바른 답을 제외한 잘못된 답안 가져오기
-                $wrongAnswersSql = "SELECT korean FROM words WHERE NOT english = '" . $question['c_english'] . "' ORDER BY RAND() LIMIT 3";
-                $wrongAnswersResult = $conn->query($wrongAnswersSql);
-
-                while ($wrongAnswerRow = $wrongAnswersResult->fetch_assoc()) {
-                    $question['options'][] = $wrongAnswerRow['korean'];
-                }
-                
-                    if (!empty($question)) {
-                        $questions[] = $question;
-                    }
-
-                    echo "<script>";
-                    echo "console.log('questions:', " . json_encode($questions) . ");";
-                    echo "</script>";
-
+                $correctWordList[] = $row;
             }
-            
-
-            // 모든 질문이 추가된 후에 $questions 배열의 순서를 랜덤으로 섞음
-            shuffle($questions);
-
-            // 데이터베이스 연결 종료
-            $conn->close();
+            // 배열 셔플
+            shuffle($correctWordList);
+        } else {
+            echo "0 results";
         }
+
+        $customCount = count($correctWordList);
+        
+        foreach ($correctWordList as &$word) {
+            // Get the 'part' value of the current element
+            $currentPart = $word['part'];
+        
+            // SQL query to retrieve count random data different from the current element
+            $randomDataQuery =
+                "SELECT * FROM vw_random_data
+                WHERE part = '$currentPart'
+                LIMIT $count";
+        
+            // execute query
+            $randomDataResult = $conn->query($randomDataQuery);
+        
+            $temp = [];
+            // question의 option 필드에 들어갈 list
+            $temp = [
+                'c_english' => $word['english'], 
+                'c_korean' => $word['korean'],
+                'options' => [$word['korean']]
+            ];
+            while ($randomData = $randomDataResult->fetch_assoc()) {
+                $temp['options'][] = $randomData['korean'];
+            }
+
+            $question[] = $temp;
         ?>
 
     <!-- 그냥 접속했을 때 -->
     <?php
-      } else {
+      }} else {
     ?>
     <h1>Invalid Access</h1>
     <?php
@@ -97,7 +105,7 @@
     ?>
 
     <script type="text/javascript">
-    var questions = <?php echo json_encode($questions); ?>;
+    var questions = <?php echo json_encode($question); ?>;
     document.getElementById('nextButton').style.display = 'none';
     </script>
 
@@ -137,7 +145,6 @@
             <button id="saveBtn" onclick="saveIncorrect()" style="display: none;">Save Incorrect Quizzes to
                 Review</button>
         </div>
-    </div>
 
 
     <script>
@@ -258,12 +265,12 @@
 
         // "퀴즈 다시하기" 버튼을 표시
         document.getElementById('restartButton').style.display = 'block';
-        document.getElementById('saveBtn').style.display = 'block';
+        document.getElementById('homeBtn').style.display = 'block';
 
 
         //틀린 custom_id 저장
-        console.log(incorrect_id);
-        var incorrectString = incorrect_id.join(',');
+        // console.log(incorrect_id);
+        // var incorrectString = incorrect_id.join(',');
 
         //window.location.href = 'incorrectcustom.php?id=' + incorrectString;
     }
@@ -285,7 +292,7 @@
     }
 
     function saveIncorrect() {
-        //틀린 custom_id 저장
+        //틀린 id 저장
         console.log(incorrect_id);
         var incorrectString = incorrect_id.join(',');
 

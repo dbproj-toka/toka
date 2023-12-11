@@ -6,7 +6,7 @@
             # 본인 sql 서버에 맞게 수정하기 #
             $host = "localhost";
             $user = "root";
-            $pass = "root";
+            $pass = "qkrwnsdyd0416";
             $db = "toka";
 
             $conn = new mysqli($host, $user, $pass, $db);
