@@ -21,6 +21,7 @@
     <!-- 정상적으로 로그인하여 접속했을 때 -->
     <?php
       if ( $jb_login ) {
+
     ?>
 
     <?php
@@ -296,6 +297,14 @@
         //틀린 custom_id 저장
         console.log(incorrect_id);
         var incorrectString = incorrect_id.join(',');
+
+        // archives 테이블에 기록 추가
+        recordQuestCompletion(1, 2, 1);
+
+        if (score === 100) {
+            recordQuestCompletion(1, 3, 1); // 여기서 user_id, quest_id, isCompleted를 전달
+        }
+
     }
 
     function restartQuiz() {
@@ -320,6 +329,24 @@
         var incorrectString = incorrect_id.join(',');
 
         window.location.href = 'incorrectcustom.php?id=' + incorrectString;
+    }
+
+    function recordQuestCompletion(userId, questId, isCompleted) {
+        $.ajax({
+            url: '../quest/questSuccess.php',
+            type: 'POST',
+            data: {
+                user_id: userId, // 동적으로 설정된 사용자의 ID
+                quest_id: questId, // 동적으로 설정된 퀘스트의 ID
+                isCompleted: isCompleted // 동적으로 설정된 완료 상태
+            },
+            success: function(response) {
+                console.log("Quest completion response: ", response);
+            },
+            error: function(xhr, status, error) {
+                console.error("Quest completion record 실패: ", error);
+            }
+        });
     }
     </script>
 </body>
