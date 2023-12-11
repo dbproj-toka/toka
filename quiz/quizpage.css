@@ -11,34 +11,13 @@ body {
     height: 90%;
 }
 
-.text-left {
-    text-align: left;
-}
-
-.text-5xl {
-    font-size: 5rem; /* Adjust the font size as needed */
-    /* Add any other styles you want for the text-5xl class */
-}
-body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #e9ecef; /* 조정된 배경색 */
-    line-height: 1.6;
-}
-
-.quizWrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 90%;
-}
-
 .quiz-container {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 80%;
     max-width: 600px;
-    height: 550px;
+    height: 570px;
     margin: 30px auto; /* 상하 여백 조정 */
     padding: 0 20px 0 20px;
     border-radius: 10px; /* 둥근 모서리 조정 */
@@ -144,7 +123,7 @@ input[type='text'] {
     height: 50px;
 }
 
-#homeBtn {
+#saveBtn {
     background-color: #ACBAED; /* 다시하기 버튼 색상 조정 */
     margin-top: 0px; /* 상단 간격을 줄임 */
     margin-bottom: 20px; /* 필요하다면 하단 간격을 추가 */
@@ -174,11 +153,34 @@ input[type='text'] {
     cursor: not-allowed; 
 }
 
+#progress{
+    margin-top: 40px;
+    justify-content: space-between;
+}
+
+#proWrap1 {
+    margin-right: auto; 
+}
+
+#proWrap2 {
+    margin-left: auto; 
+}
+
+#progress {
+    color: white;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+#scoreText {
+    font-weight: 600;
+}
+
 #restartButton:hover {
     background-color:  #00DF66;
 }
 
-#homeBtn:hover {
+#saveBtn:hover {
     background-color: #5D7FE8;;
 }
 
@@ -186,6 +188,7 @@ input[type='text'] {
     display: none;
     flex-direction: column;
 }
+
 /* 진행 바 스타일 */
 .progress-bar {
     height: 20px; /* 진행 바 높이 */
@@ -236,12 +239,14 @@ input[type='text'] {
 
 /* 라벨 클릭 가능 영역 확장 */
 .quiz-option label {
-    display: block; /* 라벨을 블록 레벨 요소로 만듦 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-    margin-left: 0; /* 가운데 정렬을 위해 왼쪽 마진 제거 */
-    padding: 10px; /* 패딩 조정 */
+    display: block;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
     cursor: pointer;
-    width: 100%; /* 라벨 너비를 부모의 100%로 설정 */
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 /* 선택된 옵션 */
@@ -256,4 +261,9 @@ input[type='text'] {
 /* 기본 라디오 버튼 스타일 숨김 */
 .quiz-option input[type='radio'] {
     display: none;
+}
+
+/* 라벨에 마우스 호버 시의 스타일 */
+.quiz-option label:hover {
+    background-color: #e2e6ea;
 }
