@@ -9,9 +9,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="customquiz.css">
+    <link rel="stylesheet" href="quizpage.css">
     <link rel="stylesheet" href="../navigator.css">
-    <title>Review Custom Quiz</title>
+    <title>Review Quiz</title>
 </head>
 
 <body>
@@ -41,7 +41,17 @@
         $count = 3;
         $user_id = $_GET['user_id'];
 
-        $getCorrectWordListQuery = "SELECT * FROM words WHERE categoryId = $categoryId" ;
+        $getCorrectWordListQuery = "SELECT *
+        FROM words
+        WHERE word_id IN (
+            SELECT wordId
+            FROM incorrectwords
+            WHERE recordId IN (
+                SELECT recordId
+                FROM records
+                WHERE user_id = $user_id AND category_id = $categoryId
+            )
+        );" ;
         $getCategoryName = "SELECT category_name as name FROM category WHERE identifier = $categoryId";
         
         $categoryName = $conn->query($getCategoryName)->fetch_assoc();
