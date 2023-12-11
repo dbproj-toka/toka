@@ -54,7 +54,7 @@
         <div class="container">
             <!-- Menu -->
             <div class="subWrapper">
-                <p class="subTitle item">Menu</p>
+                    <p class="subTitle">Menu</p>
             </div>
 
             <!-- WordList & Quiz & Review & Ranking -->
@@ -82,10 +82,10 @@
 
             </div>
 
-            <br><br><br>
+            <br><br>
             <!-- Menu -->
             <div class="subWrapper">
-                <p class="subTitle2 item">Custom Menu</p>
+                <p class="subTitle2">Custom Menu</p>
             </div>
             <div class="menuWrapper2">
                 <div class="CwordList item" onclick="openCustom()">
@@ -109,7 +109,6 @@
                     <p>Custom Review</p>
                 </div>
             </div>
-            <div class="spacer"></div>
         </div>
     </div>
 

@@ -20,48 +20,164 @@ body {
     font-family: 'Pretendard-Regular', sans-serif; /* 수정된 폰트 패밀리 */
 }
 
-/* Menu */
-.subWrapper {
-    text-align: center;
-    margin-bottom: 15px;
-    margin-top: 30px;
-    font-size: large;
-}
 
-.subTitle {
-    font-size: 20px;
-    color: #fff;
-    -webkit-text-stroke: 1px #fff;
-}
 
 
 /* 내용 */
-.category-list {
-    list-style: none; /* 기본 리스트 스타일 제거 */
-    padding-left: 0; /* 왼쪽 패딩 제거 */
-    width: 100%; /* 전체 너비 사용 */
-    margin: 0 auto; /* 중앙 정렬 */
-}
-
-.category-list li {
-    width: 100%;
-    background-color: #ffffff;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
+.wrapper {
+    width: 50%;
+    height: 90%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    border-left: solid 10px #7F96E8;
-    margin: 5px 10px;
-  }
-
-
-.category-button{
-    font-size: medium;
+    justify-content: center;
+    margin: auto;
 }
 
-.category-number {
+.container {
+    width: 100%; /* 또는 필요에 따라 특정 값을 지정 */
+    height: 100%;
+}
+
+
+/* Title & Create button */
+.titleWrap {
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.title {
+    margin: 0;
+    display: inline-block;
+    color: white;
+    font-weight: 700;
+}
+
+.btnWrapper {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#btn {
+    margin: auto;
+    background: linear-gradient(to left, #7F96E8, #A6DCBF);
+    width: 150px;
+    height: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    border: 0px solid rgb(93, 93, 93);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#btn:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+
+
+
+/* 단어 출력부분 */
+.scrollable {
+    width: 100%; /* 래퍼의 전체 너비 사용 */
+    max-width: 100%; /* 필요한 경우 래퍼의 최대 너비와 일치 */
+    height: 85%;
+    margin: 20px auto; /* 중앙 정렬 */
+    overflow-y: auto; /* 필요에 따라 세로 스크롤바 표시 */
+    background: #ffffff00; /* 배경색 */
+    border-radius: 8px; /* 둥근 모서리 */
+    padding: 0px; /* 패딩 설정 */
+    display: flex; /* 플렉스박스 레이아웃 사용 */
+    flex-direction: column; /* 항목을 세로로 쌓기 */
+    gap: 10px; /* 항목 사이의 간격 */
+  }
+
+/* 수직 스크롤바 */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ACBAED;/* 스크롤바 색상 */
+    border-radius: 6px; /* 둥근 경계 반지름 설정 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #A6DCBF;/* 마우스 호버 시 스크롤바 색상 변경 */
+}
+
+.list {
+    width: 100%; /* 스크롤 가능 영역의 전체 너비 사용 */
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    display: flex; /* 플렉스박스 레이아웃 사용 */
+    flex-wrap: wrap; /* 내용이 넘칠 때 다음 줄로 감싸기 */
+    justify-content: space-between; /* 항목 사이에 공간 배분 */
+    gap: 10px; /* 항목 사이의 간격 */
+  }
+
+.list li {
+    width: 100%; /* 2열을 만들기 위해 너비 조정, 간격 고려 */
+    background-color: #ffffff; /* 카드 배경색 */
+    padding: 15px; /* 내부 여백 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 입체감을 주는 그림자 */
+    border-radius: 5px; /* 둥근 모서리 */
+    display: flex; /* 내부 레이아웃을 위한 플렉스박스 사용 */
+    align-items: center; /* 항목을 세로로 중앙 정렬 */
+    justify-content: space-between; /* 내부 내용 사이에 공간 배분 */
+    font-family: 'Pretendard-Regular', sans-serif; /* 폰트 패밀리 설정 */
+    border-left: solid 10px #7F96E8;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.list li:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.list li:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.list-group-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.list-group-item.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.list-group-item:hover {
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+.word {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}  
+
+.left-side {
+    display: flex;
+    align-items: center;
+}
+
+.number {
     background-color:  #7F96E8; /* Blue background for ID */
     color: #ffffff; /* White text color */
     padding: 2px 8px; /* Padding around ID */
@@ -69,93 +185,28 @@ body {
     font-weight: bold; /* Bold font weight for ID */
 }
 
-.category-name {
+.english-word {
+    font-weight: bold; /* 영어 단어는 굵게 표시 */
+    margin-right: 10px; /* 영어 단어와 품사 사이에 여백을 줌 */
+    padding-left: 20px;
+    font-size: 25px;
+  }
+  
+  .word-translations {
+    font-weight: bold; /* 영어 단어는 굵게 표시 */
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    margin-right: 10px;
+  }
+  
+  .part-of-speech {
+    font-weight: bold; /* 영어 단어는 굵게 표시 */
+    margin-right: 20px; /* 품사와 한국어 단어 사이에 여백을 줌 */
     font-size: 20px;
-    font-weight: bold; /* 번호 굵게 */
-    flex-grow: 1; /* 남은 공간 채우기 */
-    padding-right: 20px;
-    text-align: center; /* 텍스트 왼쪽 정렬 */
-}
-
-/* 카테고리 리스트를 위한 추가 스타일 */
-.scrollable {
-    width: 50%; /* 원하는 너비로 조정 */
-    height: 600px; /* 높이를 800px 또는 원하는 값으로 변경 */
-    margin: 20px auto; /* 중앙 정렬 */
-    overflow-y: scroll; /* 세로 스크롤만 표시 */
-    background: #ffffff00; /* 배경색 */
-    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/ /* 그림자 효과 */
-    border-radius: 8px; /* 모서리 둥글게 */
-    list-style: none; /* 기본 리스트 스타일 제거 */
-    padding: 15px; /* 안쪽 여백 설정 */
-}
-
-.scrollable ul {
-    list-style: none; /* 리스트 항목 앞의 점을 제거합니다 */
-    padding: 0; /* 왼쪽 패딩을 제거합니다 */
-    margin: 0; /* 상하 마진을 제거합니다 */
-    display: flex; /* 리스트를 플렉스 아이템으로 만들어 줍니다 */
-    flex-direction: column; /* 아이템들을 세로로 나열합니다 */
-}
-
-.scrollable li {
-    background-color: #fff; /* 배경색을 흰색으로 설정합니다 */
-    margin: 10px 0; /* 아이템 간격을 위해 마진을 설정합니다 */
-    padding: 10px; /* 내부 여백을 설정합니다 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과를 추가합니다 */
-    display: flex; /* 항목 내부에서의 정렬을 위해 플렉스 박스 모델을 사용합니다 */
-    justify-content: space-between; /* 내부 요소들을 양쪽으로 띄웁니다 */
-    align-items: center; /* 세로 방향 가운데 정렬을 합니다 */
-    border-radius: 10px; /* 모서리를 둥글게 처리합니다 */
-    cursor: pointer; /* 마우스 커서를 포인터로 변경 */
-}
-
-
-.scrollable li div.text {
-    flex-grow: 1; /* 텍스트를 가능한 공간에 맞게 확장합니다 */
-    text-align: left; /* 텍스트는 왼쪽 정렬합니다 */
-}
-
-/* 호버 효과 - 리스트 항목에 마우스를 올렸을 때 그림자 강도를 증가시킵니다 */
-.scrollable li:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 효과를 강화합니다 */
-}
-
-/* 스크롤바 스타일 */
-.scrollable::-webkit-scrollbar-thumb {
-    background: #7F96E8; /* 스크롤바 색상을 변경합니다 */
-    border-radius: 10px; /* 스크롤바 모서리를 둥글게 합니다 */
-}
-
-.scrollable::-webkit-scrollbar-track {
-    background: #f1f1f1; /* 스크롤바 트랙 색상을 변경합니다 */
-    border-radius: 10px; /* 스크롤바 트랙 모서리를 둥글게 합니다 */
-}
-.category-link {
-    color: inherit; /* 상속된 색상 사용 */
-    display: block; /* 블록 레벨 요소로 변경 */
-}
-
-.back-button-container {
-    margin: 10px; /* 버튼 주변에 여백을 추가 */
-  
+    color: grey;
   }
   
-  .btn.btn-default {
-    font-weight: bold;
-    padding: 10px 20px; /* 버튼 패딩을 추가 */
-    font-size: 16px; /* 글자 크기 설정 */
-    color: #ffffff; /* 글자 색상 설정 */
-    background-color: #ffffff00; /* 배경색 설정 */
-    border: none; /* 테두리 제거 */
-    border-radius: 5px; /* 모서리를 둥글게 */
-    cursor: pointer; /* 마우스 오버 시 커서 변경 */
-    outline: none; /* 포커스 시 외곽선 제거 */
-    float: right; /* 오른쪽 정렬을 위해 float 사용 */
+  .korean-word {
+    font-size: 25px;
+    color: #555; /* 한국어 단어는 조금 더 진한 색으로 표시 */
+    text-align: right;
   }
-  
-  .btn.btn-default:hover {
-    background-color: #ffffff00; /* 배경색 설정 */ /* 호버 상태의 배경색 변경 */
-    border: none; /* 테두리 제거 */
-  }
-  
