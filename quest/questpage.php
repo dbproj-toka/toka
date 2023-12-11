@@ -34,18 +34,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
         ?>
 
     <div id="quest-container">
-<<<<<<< HEAD
-        <?php $sql = "SELECT q.idquest, q.title, q.content, a.isCompleted
-        FROM quest q
-        LEFT JOIN achieves a ON q.idquest = a.quest_id
-        ORDER BY a.isCompleted DESC, q.title ASC";
-=======
         <?php 
          $sql = "SELECT q.idquest, q.title, q.content, a.isCompleted
          FROM quest q
          LEFT JOIN achieves a ON q.idquest = a.quest_id AND a.user_id = '$identifier'
          ORDER BY a.isCompleted DESC, q.title ASC";
->>>>>>> acf28587fd4c7dbab522deb847778026bfeca2cd
 
         $result = $conn->query($sql);
 
