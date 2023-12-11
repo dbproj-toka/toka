@@ -120,6 +120,7 @@
     <script type="text/javascript">
     var questions = <?php echo json_encode($questions); ?>;
     var customCount = <?php echo $customCount; ?>;
+    var userId = <?php echo json_encode($identifier); ?>;
     document.getElementById('nextButton').style.display = 'none';
     </script>
 
@@ -299,10 +300,17 @@
         var incorrectString = incorrect_id.join(',');
 
         // archives 테이블에 기록 추가
-        recordQuestCompletion(1, 2, 1);
+<<<<<<< HEAD
+        recordQuestCompletion('<?php echo $identifier; ?>', 2, 1);
 
         if (score === 100) {
-            recordQuestCompletion(1, 3, 1); // 여기서 user_id, quest_id, isCompleted를 전달
+            recordQuestCompletion('<?php echo $identifier; ?>', 3, 1); // 여기서 user_id, quest_id, isCompleted를 전달
+=======
+        recordQuestCompletion(userId, 2, 1);
+
+        if (score === 100) {
+            recordQuestCompletion(userId, 3, 1); // 여기서 user_id, quest_id, isCompleted를 전달
+>>>>>>> acf28587fd4c7dbab522deb847778026bfeca2cd
         }
 
     }

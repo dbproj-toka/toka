@@ -42,46 +42,69 @@
         $result = $conn->query($sql);
     ?>
 
-    <div class="subtitle">All Words</div>
+    <!-- 내용 -->
+    <div class="wrapper">
+        <div class="container">
+            
+            <div class="titleWrap">
+                <h3 class="title">All Words</h3>    
 
-    <!-- 검색 폼 -->
-    <form action="" method="get" class="search-form">
-        <input type="text" name="search" placeholder="Search words" value="<?php echo $search; ?>">
-        <button type="submit">Search</button>
-    </form>
+                <!-- 검색 폼 -->
+                <form action="" method="get" class="search-form">
+                    <input type="text" name="search" placeholder="Search words" value="<?php echo $search; ?>" autocomplete="off">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
 
-    <div class="scrollable">
-        <div class="back-button-container">
-            <button onclick="location.href='../category/category.php'" class="btn btn-default">Go to Category</button>
-        </div>
-        <!-- 단어 리스트 출력 -->
-        <ul class="category-list">
-            <?php
-                if ($result->num_rows > 0) {
-                    // 결과 데이터를 출력
-                    while($row = $result->fetch_assoc()) {
-                        echo '<li class="list-group-item">';
-                        echo '<div class="word">';
-                        echo '<span class="category-number">' . $row["word_id"] . '</span>';
-                        echo '<span class="english-word">' . $row["english"] . '</span>';
-                        echo '<div class="word-translations">';
-                        echo '<span class="part-of-speech">' . $row["part"] . '</span>';
-                        echo '<span class="korean-word">' . $row["korean"] . '</span>';
-                        echo '</div>';
-                        echo '</div>';
-                        echo '</li>';
-                    }
-                } else {
-                    echo "<li>No results found</li>";
-                }
-            ?>
-        </ul>
-    </div>
+            <div class="scrollable">
+                <div class="wordWrapper">
+                
+                    <!-- 단어 리스트 출력 -->
+                    <ul class="list">
+                        <?php
+                            if ($result->num_rows > 0) {
+                                // 결과 데이터를 출력
+                                while($row = $result->fetch_assoc()) {
+                                    echo '<li class="list-group-item">';
+                                        echo '<div class="word">';
+                                            echo '<div class="left-side">';
+                                                echo '<span class="number">' . $row["word_id"] . '</span>';
+                                                echo '<span class="english-word">' . $row["english"] . '</span>';
+                                            echo '</div>';
+                                            echo '<div class="word-translations">';
+                                                echo '<span class="part-of-speech">' . $row["part"] . '</span>';
+                                                echo '<span class="korean-word">' . $row["korean"] . '</span>';
+                                            echo '</div>';
+                                        echo '</div>';
+                                    echo '</li>';
+                                }
+                            } else {
+                                echo "<li>No results found</li>";
+                            }
+                        ?>
+                    </ul>
+                </div>
+            </div>
 
     <?php
         // 데이터베이스 연결 종료
         $conn->close();
     ?>
+
+    <script>
+        //애니메이션 효과
+        showListItems();
+
+        function showListItems() {
+            var listItems = document.querySelectorAll('.list-group-item');
+
+            listItems.forEach(function (item, index) {
+                setTimeout(function () {
+                    item.classList.add('show');
+                }, index * 50);
+            });
+        }
+    </script>
 </body>
 
 </html>

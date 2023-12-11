@@ -32,49 +32,79 @@
 	}
     
 ?>
-    <div class="Wrapper">
-        <!-- Menu -->
-        <div class="subWrapper">
-            <p class="subTitle item">Category List</p>
-        </div>
+    <div class="wrapper">
+        <div class="container">
 
-        <div class="scrollable">
-            <div class="back-button-container">
-                <button onclick="location.href='../word/allwordspage.php'" class="btn btn-default">Search All
-                    Words</button>
+            <!-- title -->
+            <div class="titleWrap">
+                <h3 class="title">Category List</h3>
+                <div class="btnWrapper">
+                    <button onclick="location.href='../word/allwordspage.php'" id="btn" class="btn btn-default">Search All Words</button>
+                </div>
             </div>
-            <!-- 카테고리 리스트 출력 -->
-            <?php
-            
-        // 카테고리 데이터를 가져오는 쿼리 실행
-    
-        $sql = "SELECT identifier, category_name FROM category";
-        $result = $conn->query($sql);
-        
-        // 결과가 있으면 리스트 아이템으로 출력
-        if ($result->num_rows > 0) {
-            echo '<ul class="category-list">'; // 클래스 이름을 'category-list'로 지정
-            while($row = $result->fetch_assoc()) {
-                // 카테고리 번호와 이름을 분리하여 출력
-                echo '<a href="../word/wordpage.php?category=' . $row["identifier"] . '" class="category-link">';
-                echo '<li>';
-                echo '<span class="category-number">' . sprintf("%02d", $row["identifier"]) . '</span>';
-                echo '<span class="category-name">' . $row["category_name"] . '</span>';
-                //각 카테고리 버튼 추가
-                echo '</li>';
-                echo '</a>';
 
-            }
-        } else {
-            echo "0 results";
-        }
-        // 데이터베이스 연결 종료
-        $conn->close();
-    ?>
-            </ul>
+            <div class="scrollable">
+                <div class="wordWrapper">
+                    <ul class="list">
+                        <!-- 카테고리 리스트 출력 -->
+                        <?php
+                        
+                            // 카테고리 데이터를 가져오는 쿼리 실행                   
+                            $sql = "SELECT identifier, category_name FROM category";
+                            $result = $conn->query($sql);
+                            
+                            // 결과가 있으면 리스트 아이템으로 출력
+                            if ($result->num_rows > 0) {
+
+                                while($row = $result->fetch_assoc()) {
+                                    echo '<li class="list-group-item" onclick="goWord(' . $row["identifier"] . ')">';
+                                        echo '<div class="word">';
+                                            echo '<div class="left-side">';
+                                                echo '<span class="number">' . sprintf("%02d", $row["identifier"]) . '</span>';
+                                                echo '<span class="english-word">' . $row["category_name"] . '</span>';
+                                            echo '</div>';
+                                    echo '</li>';
+
+                                }
+                            } else {
+                                echo "0 results";
+                            }
+                            // 데이터베이스 연결 종료
+                            $conn->close();
+                        ?>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
+    <script>
+
+        //애니메이션 효과
+        showListItems();
+
+        function showListItems() {
+            var listItems = document.querySelectorAll('.list-group-item');
+
+            listItems.forEach(function (item, index) {
+                setTimeout(function () {
+                    item.classList.add('show');
+                }, index * 100);
+            });
+        }
+
+        //단어 생성
+        function createCustom() {
+            window.location.href = 'createword.php';
+        }
+
+        //카테고리단어목록으로
+        function goWord(id) {
+            //window.location.href = 'editword.php';
+            window.location.href = '../word/wordpage.php?category=' + id;
+        }
+
+    </script>
 </body>
 
 </html>
