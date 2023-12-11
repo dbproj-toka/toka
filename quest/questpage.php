@@ -33,31 +33,32 @@ $current_page = basename($_SERVER['PHP_SELF']);
         ?>
 
     <div id="quest-container">
-        <?php
-    $sql = "SELECT * FROM quest ORDER BY completed DESC, title ASC";
-    $result = $conn->query($sql);
+        <?php $sql = "SELECT q.idquest, q.title, q.content, a.isCompleted
+        FROM quest q
+        LEFT JOIN achives a ON q.idquest = a.quest_id
+        ORDER BY a.isCompleted DESC, q.title ASC";
 
-    if ($result->num_rows > 0) {
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
-            // 퀘스트 완료 여부에 따라 스타일 클래스를 결정합니다.
-            $iconClass = $row["completed"] ? 'quest-icon-completed' : 'quest-icon';
-            $cardClass = $row["completed"] ? 'quest-item-completed' : 'quest-item-incomplete';
-            $titleClass = $row["completed"] ? 'quest-title-completed' : 'quest-title';
-            $iconHTML = $row["completed"] ? '<i class="fa-solid fa-trophy"></i>' : '<i class="fa-solid fa-lock"></i>';
+        $isCompleted = $row["isCompleted"];
+        $iconClass = $isCompleted ? 'quest-icon-completed' : 'quest-icon';
+        $cardClass = $isCompleted ? 'quest-item-completed' : 'quest-item-incomplete';
+        $titleClass = $isCompleted ? 'quest-title-completed' : 'quest-title';
+        $iconHTML = $isCompleted ? '<i class="fa-solid fa-trophy"></i>' : '<i class="fa-solid fa-lock"></i>';
 
-            
-            echo "<div class='$cardClass'>";
-            // 완료 여부에 따라 다른 아이콘을 표시합니다.
-            echo "<span class='$iconClass'>$iconHTML</span>"; // 아이콘 출력
+        echo "<div class='$cardClass'>";
+            echo "<span class='$iconClass'>$iconHTML</span>";
             echo "<h2 class='$titleClass'>".$row["title"]."</h2>";
             echo "<p class='quest-description'>".$row["content"]."</p>";
             echo "</div>";
         }
-    } else {
+        } else {
         echo "No quests found";
-    }
-    $conn->close();
-    ?>
+        }
+        $conn->close();
+        ?>
     </div>
 
 </body>

@@ -148,6 +148,13 @@ li>a:hover{
     -webkit-text-stroke: 1px #7F96E8;
 }
 
+.subTitle2 {
+    font-size: 20px;
+    font-weight: 900;
+    color: #39b372;
+    -webkit-text-stroke: 1px #39b372;
+}
+
 /* WordList & Quiz & Review & Ranking */
 .menuWrapper>div{
     display: inline-block;
@@ -159,8 +166,18 @@ li>a:hover{
     border-radius: 3px;
     margin-left: 30px;
     margin-right: 30px;
+}/* WordList & Quiz & Review & Ranking */
+.menuWrapper2>div{
+    display: inline-block;
+    width: 350px;
+    height: 350px;
+    background-color: white;
+    box-shadow: 5px 5px 10px 3px gray;
+    border-bottom: solid 30px #A6DCBF;
+    border-radius: 3px;
+    margin-left: 30px;
+    margin-right: 30px;
 }
-
 .icon {
     font-size: 50px;
     color: #7F96E8;
@@ -196,4 +213,17 @@ li>a:hover{
 .item:hover {
     transform: scale(1.1);
     cursor: pointer;
+}
+
+.CwordList .icon, .Cquiz .icon, .Creview .icon {
+    color: #A6DCBF; /* 아이콘 색상 변경 */
+}
+
+.CwordList:hover, .Cquiz:hover, .Creview:hover {
+    border-bottom-color: #A6DCBF; /* 호버 시 색상 변경 */
+}
+
+/* 추가 공간을 위한 CSS */
+.spacer {
+    height: 50px; /* 원하는 높이로 조정 */
 }
