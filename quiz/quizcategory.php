@@ -21,7 +21,7 @@
         # 본인 sql 서버에 맞게 수정하기 #
         $host = "localhost";
         $user = "root";
-        $pass = "qkrwnsdyd0416";
+        $pass = "root";
         $db = "toka";
     
 

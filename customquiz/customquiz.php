@@ -302,7 +302,10 @@
         // archives 테이블에 기록 추가
         recordQuestCompletion(userId, 2, 1);
 
-        if (score === 100) {
+        var check = document.getElementById('customCount').innerText;
+        var maxScore = check * 10;
+
+        if (score === maxScore) {
             recordQuestCompletion(userId, 3, 1); // 여기서 user_id, quest_id, isCompleted를 전달
         }
 

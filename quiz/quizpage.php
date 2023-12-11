@@ -26,7 +26,7 @@
     <?php
         $host = "localhost";
         $user = "root";
-        $pass = "qkrwnsdyd0416";
+        $pass = "root";
         $db = "toka";
 
         $conn = new mysqli($host, $user, $pass, $db);
